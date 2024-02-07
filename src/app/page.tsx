@@ -1,9 +1,12 @@
 export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<section className="container mx-auto p-4" data-testid="products-list">
+			<section className="container mx-auto p-4">
 				<h1 className="mb-8 text-3xl font-bold">Our red shoes</h1>
-				<ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<ul
+					className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+					data-testid="products-list"
+				>
 					<li className="group flex flex-col rounded-lg bg-gray-100 p-3 shadow-md">
 						<div className="aspect-square grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0">
 							<img src="/shoes1.jpeg" alt="Red sneakers" className="h-auto w-full object-cover" />
