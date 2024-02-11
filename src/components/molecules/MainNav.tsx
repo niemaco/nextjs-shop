@@ -21,11 +21,20 @@ const navLinks: NavLink[] = [
 export const MainNav = () => {
 	return (
 		<nav className="mt-4">
-			{navLinks.map(({ href, name, className, activeClassName }, index) => (
-				<ActiveLink key={index} href={href} className={className} activeClassName={activeClassName}>
-					{name}
-				</ActiveLink>
-			))}
+			<ul className="list-none">
+				<li>
+					{navLinks.map(({ href, name, className, activeClassName }, index) => (
+						<ActiveLink
+							key={index}
+							href={href}
+							className={className}
+							activeClassName={activeClassName}
+						>
+							{name}
+						</ActiveLink>
+					))}
+				</li>
+			</ul>
 		</nav>
 	);
 };
