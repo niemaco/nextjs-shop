@@ -18,11 +18,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<header className="container mx-auto px-4 first:pl-0 last:pr-0">
+				<header className="container mx-auto px-4">
 					<MainNav></MainNav>
 				</header>
 				<main className="container mx-auto px-4">{children}</main>
-				<footer className="container mx-auto px-4">
+				<footer className="container mx-auto border-t-2 px-4 py-2">
 					<p className="flex justify-between">
 						<span>Created by Karol Osuchowski</span>
 						<span>Copyright © 2024</span>
