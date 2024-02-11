@@ -1,5 +1,6 @@
 import type { CatalogProductDetails } from "@/types/Catalog/Product";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { formatPrice } from "@/utils/price";
 
 export const ProductDetails = ({
 	product: { category, name, price, slug },
@@ -20,7 +21,7 @@ export const ProductDetails = ({
 					<span className="sr-only">Category</span> <span>{category}</span>
 				</div>
 				<div>
-					<span className="sr-only">Price</span> <span>{price}</span>
+					<span className="sr-only">Price</span> <span>{formatPrice(price)}</span>
 				</div>
 			</div>
 		</div>
