@@ -1,6 +1,8 @@
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
 import type { CatalogProduct } from "@/types/Catalog/Product";
 import { BaseHeading } from "@/ui/atoms/BaseHeading";
+import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import type { NavLink } from "@/types/Common";
 
 const products: CatalogProduct[] = [
 	{
@@ -50,12 +52,43 @@ const products: CatalogProduct[] = [
 ];
 
 export default function Home() {
+	const className: string = "p-4 text-grey-400 hover:text-blue-400 focus-visible:text-blue-400";
+	const activeClassName: string = "underline";
+	const navLinks: NavLink[] = [
+		{
+			name: "Home",
+			href: "/",
+			className,
+			activeClassName,
+		},
+		{
+			name: "All",
+			href: "/products",
+			className,
+			activeClassName,
+		},
+	];
+
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<section className="container mx-auto p-4">
-				<BaseHeading text="Our red shoes" />
-				<ProductList products={products} />
-			</section>
-		</main>
+		<>
+			<nav className="container mx-auto mt-4 px-4">
+				{navLinks.map(({ href, name, className, activeClassName }, index) => (
+					<ActiveLink
+						key={index}
+						href={href}
+						className={className}
+						activeClassName={activeClassName}
+					>
+						{name}
+					</ActiveLink>
+				))}
+			</nav>
+			<main className="flex min-h-screen flex-col items-center justify-between p-24">
+				<section className="container mx-auto p-4">
+					<BaseHeading text="Our red shoes" />
+					<ProductList products={products} />
+				</section>
+			</main>
+		</>
 	);
 }
