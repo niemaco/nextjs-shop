@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { MainNav } from "@/ui/molecules/MainNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,18 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<header className="container mx-auto px-4 first:pl-0 last:pr-0">
+					<MainNav></MainNav>
+				</header>
+				<main className="container mx-auto px-4">{children}</main>
+				<footer className="container mx-auto px-4">
+					<p className="flex justify-between">
+						<span>Created by Karol Osuchowski</span>
+						<span>Copyright © 2024</span>
+					</p>
+				</footer>
+			</body>
 		</html>
 	);
 }
