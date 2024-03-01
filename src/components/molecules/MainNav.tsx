@@ -1,43 +1,32 @@
-import type { NavLink } from "@/types/Common";
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
 
 const className: string =
-	" p-4 first:pl-0 last:pr-0 text-grey-400 hover:text-blue-400 focus-visible:text-blue-400";
-const activeClassName: string = "underline text-blue-400";
-const navLinks: NavLink[] = [
+	"p-4 first:pl-0 last:pr-0 text-grey-400 hover:text-blue-400 focus-visible:text-blue-400";
+
+const navLinks: ActiveLinkProps<string>[] = [
 	{
-		name: "Home",
+		children: "Home",
 		href: "/",
-		className,
-		activeClassName,
+		exact: true,
 	},
 	{
-		name: "All",
+		children: "All",
 		href: "/products",
-		className,
-		activeClassName,
 	},
 	{
-		name: "Blog",
+		children: "Blog",
 		href: "/blog",
-		className,
-		activeClassName,
 	},
 ];
 
 export const MainNav = () => {
 	return (
-		<nav className="mt-4 border-b-2 pb-2">
+		<nav>
 			<ul className="list-none">
 				<li>
-					{navLinks.map(({ href, name, className, activeClassName }, index) => (
-						<ActiveLink
-							key={index}
-							href={href}
-							className={className}
-							activeClassName={activeClassName}
-						>
-							{name}
+					{navLinks.map(({ href, children, exact }, index) => (
+						<ActiveLink key={index} href={href} className={className} exact={exact}>
+							{children}
 						</ActiveLink>
 					))}
 				</li>
