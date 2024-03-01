@@ -1,3 +1,6 @@
+// server_component.tsx
+import "server-only";
+
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 export default function BlogPage() {
