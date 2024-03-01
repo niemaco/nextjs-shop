@@ -17,6 +17,12 @@ const navLinks: NavLink[] = [
 		className,
 		activeClassName,
 	},
+	{
+		name: "Blog",
+		href: "/blog",
+		className,
+		activeClassName,
+	},
 ];
 
 export const MainNav = () => {
