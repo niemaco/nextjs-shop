@@ -1,4 +1,5 @@
 export type CatalogProduct = {
+	description: string;
 	id: string;
 	name: string;
 	category: string;

@@ -11,6 +11,7 @@ export const redShoes: CatalogProduct[] = [
 			alt: "Red sneakers with white soles and white laces. There are three shoes in the photo",
 		},
 		price: 1999,
+		description: "Description 1",
 	},
 	{
 		id: "2",
@@ -22,6 +23,7 @@ export const redShoes: CatalogProduct[] = [
 			alt: "Red sneakers with white soles and red laces",
 		},
 		price: 2999,
+		description: "Description 2",
 	},
 	{
 		id: "3",
@@ -33,6 +35,7 @@ export const redShoes: CatalogProduct[] = [
 			alt: "Red sneakers with a white sole, white laces and many white stripes",
 		},
 		price: 4999,
+		description: "Description 2",
 	},
 	{
 		id: "4",
@@ -44,5 +47,6 @@ export const redShoes: CatalogProduct[] = [
 			alt: "Red sneakers with a white sole, white laces and many white stripes",
 		},
 		price: 5999,
+		description: "Description 3",
 	},
 ];

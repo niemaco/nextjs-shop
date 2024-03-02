@@ -13,9 +13,12 @@ export const getProducts = async (page: number = 1) => {
 	);
 };
 
-export const getProductById = async (productId: CatalogProductResponse["id"]) => {
+export const getProductById = async (
+	productId: CatalogProductResponse["id"],
+): Promise<CatalogProduct> => {
 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${productId}`);
 	const productResponse = (await res.json()) as CatalogProductResponse;
+
 	return mapCatalogProductResponseToCatalogProduct(productResponse);
 };
 
