@@ -1,21 +1,20 @@
+import Link from "next/link";
 import type { CatalogProductDetails } from "@/types/Catalog/Product";
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
 import { formatPrice } from "@/utils/price";
 
 export const ProductDetails = ({
-	product: { category, name, price, slug },
+	product: { category, name, price, id },
 }: CatalogProductDetails) => {
 	return (
 		<div className="flex flex-col">
 			<div className="my-3 text-gray-700">
 				<h3 className="text-lg font-semibold">
-					<ActiveLink
-						href={slug}
-						className=" group-hover:text-red-600 group-focus-visible:grayscale-0"
-						activeClassName="underline"
+					<Link
+						href={`/product/${id}`}
+						className=" hover:text-red-400 focus-visible:text-red-400 group-hover:text-red-600 group-focus-visible:grayscale-0"
 					>
 						{name}
-					</ActiveLink>
+					</Link>
 				</h3>
 				<div className="mb-3">
 					<span className="sr-only">Category</span> <span>{category}</span>
