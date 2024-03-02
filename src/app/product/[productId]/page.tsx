@@ -1,6 +1,19 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getProductById } from "@/api/products";
 import { formatPrice } from "@/utils/price";
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { productId: string };
+}): Promise<Metadata> {
+	const product = await getProductById(params.productId);
+	return {
+		title: product.name,
+		description: product.description,
+	};
+}
 
 export default async function ProductPage({
 	params,
