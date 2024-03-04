@@ -1,12 +1,12 @@
 import { ShoppingCart } from "lucide-react";
 import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
-import { BaseIcon } from "@/ui/atoms/BaseIcon";
+import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
 
 type NavLink = ActiveLinkProps<string> & {
-	icon?: string;
+	icon?: IconProps["name"];
 };
 
 const navLinks: NavLink[] = [
