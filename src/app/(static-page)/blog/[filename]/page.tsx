@@ -8,7 +8,7 @@ export default async function StaticPage({ params }: { params: { filename: strin
 	);
 
 	return (
-		<article className="prose py-4">
+		<article className="prose lg:prose-xl w-full max-w-none py-4 lg:py-8">
 			<Content />
 		</article>
 	);
