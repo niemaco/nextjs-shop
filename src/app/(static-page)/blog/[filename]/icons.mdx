@@ -1,0 +1,75 @@
+# Icons
+
+## Lucide React
+
+[Lucide](https://lucide.dev/)
+[Lucide React](https://lucide.dev/guide/packages/lucide-react)
+
+* ES-module
+* full tree-shakable
+* renders as inline SVG elements
+* dynamic import in NextJs
+
+## Install
+
+```
+pnpm install lucide-react
+```
+
+## Using
+
+* use SVG format
+```
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+```
+
+* use JSX format
+```
+<ShoppingCart />
+```
+
+## How to use in React
+
+```
+import { Camera } from 'lucide-react';
+
+// Usage
+const App = () => {
+  return <Camera color="red" size={48} />;
+};
+
+export default App;
+```
+
+## Dynamic using in NextJS
+
+### Configuration
+
+In file `next.config.js`
+```
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  transpilePackages: ['lucide-react'] // add this
+}
+
+module.exports = nextConfig
+```
+
+### Dynamic import
+```
+import dynamic from 'next/dynamic'
+import { LucideProps } from 'lucide-react';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
+
+interface IconProps extends LucideProps {
+name: keyof typeof dynamicIconImports;
+}
+
+const Icon = ({ name, ...props }: IconProps) => {
+const LucideIcon = dynamic(dynamicIconImports[name])
+
+return <LucideIcon {...props} />;
+};
+
+export default Icon;
+```
