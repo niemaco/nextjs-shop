@@ -1,4 +1,5 @@
 export type CatalogProduct = {
+	description: string;
 	id: string;
 	name: string;
 	category: string;
@@ -15,7 +16,7 @@ export type CatalogProductDetails = {
 		name: string;
 		category: string;
 		price: number;
-		slug: string;
+		id: string;
 	};
 };
 
@@ -24,4 +25,20 @@ export type CatalogProductImage = {
 		src: string;
 		alt: string;
 	};
+};
+
+export type CatalogProductResponse = {
+	id: string;
+	title: string;
+	price: number;
+	description: string;
+	category: string;
+	rating: Rating;
+	image: string;
+	longDescription: string;
+};
+
+type Rating = {
+	rate: number;
+	count: number;
 };

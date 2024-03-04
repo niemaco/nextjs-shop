@@ -1,7 +1,7 @@
-export default function HomePage() {
+export default function NextJsPage() {
 	return (
 		<div className="py-6">
-			<h1 className="py-4">HomePage</h1>
+			<h1 className="py-4">NextJsPage</h1>
 			<p>Website in progress</p>
 		</div>
 	);
