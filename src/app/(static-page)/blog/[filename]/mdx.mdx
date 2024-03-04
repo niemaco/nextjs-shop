@@ -1,0 +1,62 @@
+# MDX Format
+
+Markdown X format
+
+[MDX](https://mdxjs.com/)
+
+## Configuration
+
+[Next.js docs](https://nextjs.org/docs/app/building-your-application/configuring/mdx)
+
+## Overwriting components
+
+Possible in `src/mdx-components.tsx` file. An example of writing H1 header styles is included in the above-mentioned file.
+
+## Practise using
+
+Using our previous knowledge about routing and params retrieval, we can in the file `src/app/(static-page)/blog/[filename]/page.tsx`
+create the following code to generate pages dynamically:
+
+```tsx
+import { notFound } from "next/navigation";
+import { type ComponentType } from "react";
+
+export default async function StaticPage({ params }: { params: { filename: string } }) {
+	const Content = await import(`./${params.filename}.mdx`).then(
+		(m: { default: ComponentType }) => m.default,
+		() => notFound(),
+	);
+
+	return <Content />;
+}
+```
+
+## Using Tailwind CSS typography
+
+Proste i szybkie dodanie domyślnych styli dla nagłówków, akapitów i list itp.
+
+We add
+
+```bash
+pnpm add -D @tailwindcss/typography
+```
+
+Then we need to activate plugin  in `tailwind.config.js` file
+
+```diff
+-       plugins: [],
++       plugins: [
++               require('@tailwindcss/typography'),
++       ],
+```
+
+to finally be able to use the `prose` class to style the content:
+
+```diff
+-       return <Content />;
++       return (
++               <article className="prose">
++                       <Content />
++               </article>
++       );
+```
