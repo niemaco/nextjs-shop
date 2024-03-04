@@ -3,6 +3,17 @@ import { Pagination } from "@/ui/molecules/Catalog/Pagination";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
 import { getProducts } from "@/api/products";
 
+//simple solution
+export const generateStaticParams = async () => {
+	return [{ id: "1" }, { id: "2" }, { id: "3" }];
+};
+
+// TODO hard option
+// export const getStaticProps = async () => {
+// 	get count od product pages
+// 	return productsPages.map((page) => ({ id: page.id })).slice(0,3);
+//};
+
 export default async function ProductsPageById({ params }: { params: { id?: string } }) {
 	const pageId = parseInt(params?.id || "1");
 	const products = await getProducts(pageId);
