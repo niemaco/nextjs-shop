@@ -10,27 +10,23 @@ export default function BlogPage() {
 
 			<ul className="grid list-none grid-cols-2 gap-4">
 				<li className="">
-					<ActiveLink href="/blog/rsc" activeClassName="" className="">
-						RSC
-					</ActiveLink>
+					<ActiveLink href="/blog/mdx">Using MDX</ActiveLink>
+					<p>MDX format</p>
+				</li>
+				<li className="">
+					<ActiveLink href="/blog/rsc">RSC</ActiveLink>
 					<p>RSC - React Server Components</p>
 				</li>
 				<li>
-					<ActiveLink href="/blog/rcc" activeClassName="" className="">
-						RCC
-					</ActiveLink>
+					<ActiveLink href="/blog/rcc">RCC</ActiveLink>
 					<p>RCC - React Client Components</p>
 				</li>
 				<li>
-					<ActiveLink href="/blog/app-routing" activeClassName="" className="">
-						Routing
-					</ActiveLink>
+					<ActiveLink href="/blog/app-routing">Routing</ActiveLink>
 					<p>App Routing - podstawy</p>
 				</li>
 				<li>
-					<ActiveLink href="/blog/next-js" activeClassName="" className="">
-						Next.js na start
-					</ActiveLink>
+					<ActiveLink href="/blog/next-js">Next.js na start</ActiveLink>
 					<p>Środowisko Next.js - konfiguracja, eslint, prettier, wtyczki, itd </p>
 				</li>
 			</ul>
