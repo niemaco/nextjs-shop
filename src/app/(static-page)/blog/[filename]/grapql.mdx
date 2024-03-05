@@ -1,0 +1,34 @@
+# GraphQL
+
+[GraphQL](https://graphql.org/)
+[GrapQl docs](https://graphql.org/learn/)
+
+## GrapQL playground
+Możliwość introspekcji, zbadania struktury relacji, API samodokumentujące się.
+Introspection query
+
+## Why use GrapQL? - REST API problems
+### Overfetching and underfetching in REST API
+
+* overfatching - pobieramy więcej danych niż potrzebujemy - stała struktura danych w REST API
+* underfatching - pobieramy za mało danych jednym żądaniem, więc musimy wykonać kolejne zapytanie
+
+Alternatywne rozwiązanie do GraphQl to, np [JSON API](https://jsonapi.org/examples/)
+
+### Problem N+1
+Pobieranie listy danych do pierwszego zapytania w REST API, np pobranie listy użytkowników i następnie zapytanie
+
+## Operation
+* query
+* mutation
+* subscription
+
+## When not to use
+
+* brak zależności
+* brak grafów
+* przy dużych, rozbudowanych zagnieżdżeniach
+
+## Instant GraphQL
+
+[Source](https://grafbase.com)
