@@ -4,7 +4,7 @@ export type CatalogProduct = {
 	name: string;
 	category: string;
 	slug: string;
-	image: {
+	image?: {
 		src: string;
 		alt: string;
 	};

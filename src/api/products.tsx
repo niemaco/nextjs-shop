@@ -1,5 +1,9 @@
 import { type CatalogProduct, type CatalogProductResponse } from "@/types/Catalog/Product";
-import { ProductsGetDocument, type TypedDocumentString } from "@/gql/graphql";
+import {
+	ProductsGetDocument,
+	type ProductsGetQuery,
+	type TypedDocumentString,
+} from "@/gql/graphql";
 
 type GraphQLResponse<T> =
 	| { data?: undefined; errors: { message: string }[] }
@@ -64,23 +68,29 @@ export const getProductById = async (
 const mapCatalogProductResponseToCatalogProduct = (
 	product: CatalogProductResponse,
 ): CatalogProduct => ({
-	...product,
+	id: product.id,
+	description: product.description,
+	price: product.price,
 	name: product.title,
 	slug: `product-${product.id}`,
 	image: {
 		src: product.image,
 		alt: product.title,
 	},
+	category: product.category,
 });
 
 const mapGraphQLProductResponseToCatalogProduct = (
-	product: ProductsGraphqlResponse["data"]["products"]["data"][0],
+	product: ProductsGetQuery["products"]["data"][0],
 ): CatalogProduct => ({
-	...product,
+	id: product.id,
+	name: product.name,
 	slug: product.slug,
+	description: product.description,
 	category: product.categories[0]?.name || "all",
-	image: {
-		src: product?.images[0].url || "",
+	image: product?.images[0] && {
+		src: product.images[0].url,
 		alt: product.name,
 	},
+	price: product.price,
 });
