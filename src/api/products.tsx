@@ -1,30 +1,39 @@
 import { type CatalogProduct, type CatalogProductResponse } from "@/types/Catalog/Product";
-
-type ProductsGraphqlResponse = {
-	products: {
-		meta: {
-			total: number;
-		};
-		data: {
-			id: string;
-			name: string;
-			description: string;
-			price: number;
-			rating: number;
-			slug: string;
-			categories: {
-				name: string;
-			}[];
-			images: {
-				url: string;
-			}[];
-		}[];
-	};
-};
+import { ProductsGetDocument, type TypedDocumentString } from "@/gql/graphql";
 
 type GraphQLResponse<T> =
 	| { data?: undefined; errors: { message: string }[] }
 	| { data: T; errors?: undefined };
+
+export const executeGraphql = async <TResult, TVariables>(
+	query: TypedDocumentString<TResult, TVariables>,
+	variables: TVariables,
+): Promise<TResult> => {
+	if (!process.env.GRAPHQL_URL) {
+		throw TypeError("GRAPHQL_URL is not defined");
+	}
+
+	const res = await fetch(process.env.GRAPHQL_URL, {
+		method: "POST",
+		body: JSON.stringify({
+			query,
+			variables,
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	const graphqlResponse = (await res.json()) as GraphQLResponse<TResult>;
+
+	if (graphqlResponse.errors) {
+		throw TypeError(`GraphQL Error`, {
+			cause: graphqlResponse.errors,
+		});
+	}
+
+	return graphqlResponse.data;
+};
 
 export const getProducts = async (page: number = 1) => {
 	if (!process.env.GRAPHQL_URL) {
@@ -33,54 +42,12 @@ export const getProducts = async (page: number = 1) => {
 
 	const take = 20;
 	const offset = take * (page - 1);
-	const res = await fetch(process.env.GRAPHQL_URL, {
-		method: "POST",
-		body: JSON.stringify({
-			query: `query GetProducts($offset: Int, $take: Int) {
-			  products(
-				order: ASC, 
-				orderBy: DEFAULT, 
-				skip: $offset, 
-				take: $take
-			  ) {
-				data {
-				  id
-				  name
-				  description
-				  price
-				  rating
-				  slug
-				  categories {
-				  	name
-				  }
-				  images {
-					url
-				  }
-				}
-				meta {
-				  total
-				}
-			  }
-			}`,
-			variables: {
-				offset,
-				take,
-			},
-		}),
-		headers: {
-			"Content-Type": "application/json",
-		},
+	const graphqlResponse = await executeGraphql(ProductsGetDocument, {
+		offset,
+		take,
 	});
 
-	const productsResponse = (await res.json()) as GraphQLResponse<ProductsGraphqlResponse>;
-
-	if (productsResponse.errors) {
-		throw TypeError(`GraphQL Error`, {
-			cause: productsResponse.errors[0].message,
-		});
-	}
-
-	return productsResponse.data.products.data.map(
+	return graphqlResponse.products.data.map(
 		(product): CatalogProduct => mapGraphQLProductResponseToCatalogProduct(product),
 	);
 };

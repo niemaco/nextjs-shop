@@ -1,0 +1,26 @@
+query ProductsGet($offset: Int, $take: Int) {
+    products(
+        order: ASC,
+        orderBy: DEFAULT,
+        skip: $offset,
+        take: $take
+    ) {
+        data {
+            id
+            name
+            description
+            price
+            rating
+            slug
+            categories {
+                name
+            }
+            images {
+                url
+            }
+        }
+        meta {
+            total
+        }
+    }
+}
