@@ -1,11 +1,10 @@
-import { ProductImage } from "@/ui/atoms/Catalog/ProductImage";
 import { ProductDetails } from "@/ui/atoms/Catalog/ProductDetails";
-import type { CatalogProduct as Product } from "@/types/Catalog/Product";
+import { type ProductGetByIdQuery } from "@/gql/graphql";
 
-export const ProductListItem = ({ product }: { product: Product }) => {
+export const ProductListItem = ({ product }: { product: ProductGetByIdQuery["product"] }) => {
 	return (
 		<li className="group flex flex-col rounded-lg bg-gray-100 p-3 shadow-md">
-			<ProductImage image={product.image} />
+			{/*{product?.images?[0] && <ProductImage image={product.images[0]} /> }*/}
 			<ProductDetails product={product} />
 		</li>
 	);

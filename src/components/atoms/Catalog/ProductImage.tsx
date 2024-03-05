@@ -1,9 +1,9 @@
-import type { CatalogProductImage } from "@/types/Catalog/Product";
+import { ProductImage } from "@/gql/graphql";
 
-export const ProductImage = ({ image: { src, alt } }: CatalogProductImage) => {
+export const ProductImage = ({ image }: { image: Pick<ProductImage, "alt" | "url"> }) => {
 	return (
 		<div className="aspect-square grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0">
-			<img src={src} alt={alt} className="aspect-square object-cover" />
+			<img src={image.url} alt={image.alt} className="aspect-square object-cover" />
 		</div>
 	);
 };

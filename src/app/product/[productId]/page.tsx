@@ -1,17 +1,22 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getProductById } from "@/api/products";
+import { notFound } from "next/navigation";
+import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
+import { type ProductGetByIdQuery } from "@/gql/graphql";
 
 export async function generateMetadata({
 	params,
 }: {
 	params: { productId: string };
 }): Promise<Metadata> {
-	const product = await getProductById(params.productId);
+	const product: ProductGetByIdQuery["product"] = await getProductById(
+		parseInt(params.productId, 10),
+	);
+
 	return {
-		title: product.name,
-		description: product.description,
+		title: product?.name || "",
+		description: product?.description || "",
 	};
 }
 
@@ -19,15 +24,21 @@ export default async function ProductPage({
 	params,
 }: {
 	params: {
-		productId: string;
+		productId: number;
 	};
 }) {
-	const product = await getProductById(params.productId);
+	const product: ProductGetByIdQuery["product"] = await getProductById(
+		parseInt(params.productId, 10),
+	);
+
+	if (!product) {
+		throw notFound();
+	}
 
 	return (
 		<section className="container mx-auto py-8">
 			<div className="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow-md">
-				<img src={product.image.src} alt={product.image.alt} className="w-full" />
+				<img src={product.images[0].url} alt={product.images[0].alt} className="w-full" />
 
 				<div className="px-4 py-2">
 					<h1 className="text-2xl font-bold text-gray-800">{product.name}</h1>
@@ -46,7 +57,7 @@ export default async function ProductPage({
 							<span>Category: </span>
 
 							<Link href="#" className="text-blue-500 hover:underline focus-visible:underline">
-								{product.category}
+								{product.categories[0].name}
 							</Link>
 						</p>
 
