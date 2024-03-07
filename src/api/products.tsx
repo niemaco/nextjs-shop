@@ -1,16 +1,15 @@
 import { ProductsGetDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphql";
 
-export const getProducts = async (page: number = 1) => {
+export const getProducts = async (page: number = 1, limit = 12) => {
 	if (!process.env.GRAPHQL_URL) {
 		throw TypeError("GRAPHQL_URL is not defined");
 	}
 
-	const take = 20;
-	const offset = take * (page - 1);
+	const offset = limit * (page - 1);
 	const graphqlResponse = await executeGraphql(ProductsGetDocument, {
 		offset,
-		take,
+		take: limit,
 	});
 
 	return {
