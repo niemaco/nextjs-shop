@@ -24,6 +24,8 @@ const navLinks: NavLink[] = [
 	{
 		children: "Blog",
 		href: "/blog",
+		children: "Notes",
+		href: "/notes",
 		icon: "notebook",
 	},
 ];
