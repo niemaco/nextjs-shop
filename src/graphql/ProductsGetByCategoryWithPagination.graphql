@@ -1,0 +1,19 @@
+query ProductsGetCategoryWithPagination($slug: String!, $offset: Int, $take: Int) {
+    category(slug: $slug) {
+        products {
+            #products(skip: $offset, take: $take) {
+            id
+            name
+            description
+            price
+            rating
+            slug
+            categories {
+                name
+            }
+            images {
+                url
+            }
+        }
+    }
+}

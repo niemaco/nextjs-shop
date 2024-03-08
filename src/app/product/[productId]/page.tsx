@@ -53,13 +53,20 @@ export default async function ProductPage({
 					</button>
 
 					<div className="grid grid-flow-col items-end justify-between pb-4">
-						<p className="shrink px-4 py-2 text-gray-700">
-							<span>Category: </span>
-
-							<Link href="#" className="text-blue-500 hover:underline focus-visible:underline">
-								{product.categories[0].name}
-							</Link>
-						</p>
+						{product.categories.length && (
+							<p className="shrink px-4 py-2 text-gray-700">
+								<span>Categories: </span>
+								{product.categories.map((category: { name: string; slug: string }) => (
+									<Link
+										key={category.name}
+										href={`/categories/${category.slug}/1`}
+										className="mr-2 text-blue-500 hover:underline focus-visible:underline"
+									>
+										{category.name} {category.slug}
+									</Link>
+								))}
+							</p>
+						)}
 
 						<Link href="#" className="hover:underline focus-visible:underline">
 							<img

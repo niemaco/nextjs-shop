@@ -2,6 +2,7 @@ query ProductGetById($productId: ID!) {
     product(id: $productId) {
         categories {
             name
+            slug
         }
         description
         id

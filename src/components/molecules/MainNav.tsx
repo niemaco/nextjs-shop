@@ -17,13 +17,24 @@ const navLinks: NavLink[] = [
 		icon: "home",
 	},
 	{
-		children: "All",
+		children: "Products",
 		href: "/products",
 		icon: "layout-list",
 	},
 	{
-		children: "Blog",
-		href: "/blog",
+		children: "Accessories",
+		href: "/categories/accessories",
+	},
+	{
+		children: "Hoodies",
+		href: "/categories/hoodies",
+	},
+	{
+		children: "T-shirts",
+		href: "/categories/t-shirts",
+		icon: "shirt",
+	},
+	{
 		children: "Notes",
 		href: "/notes",
 		icon: "notebook",
