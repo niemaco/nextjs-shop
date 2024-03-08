@@ -1,6 +1,11 @@
 import { ProductListItem } from "@/ui/molecules/Catalog/ProductListItem";
+import { ProductItemFragment } from "@/gql/graphql";
 
-export const ProductList = ({ products }) => {
+type ProductListProps = {
+	products: ProductItemFragment[];
+};
+
+export const ProductList = ({ products }: ProductListProps) => {
 	return (
 		<ul
 			className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"

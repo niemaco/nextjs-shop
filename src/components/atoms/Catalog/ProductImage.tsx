@@ -1,15 +1,21 @@
-import { ProductImage } from "@/gql/graphql";
+import { ProductImageFragment } from "@/gql/graphql";
 import NextImage from "next/image";
 
-export const ProductImage = ({ image }: { image: Pick<ProductImage, "alt" | "url"> }) => {
+type ProductImageProps = {
+	width: number;
+	height: number;
+	image: ProductImageFragment;
+};
+
+export const ProductImage = ({ image, width, height }: ProductImageProps) => {
 	return (
 		<div className="aspect-square grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0">
 			<NextImage
 				src={image.url}
 				alt={image.alt}
 				className="aspect-square object-cover"
-				width={320}
-				height={320}
+				width={width}
+				height={height}
 			/>
 		</div>
 	);

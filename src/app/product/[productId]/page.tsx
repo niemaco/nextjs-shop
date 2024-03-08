@@ -3,17 +3,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { type ProductGetByIdQuery } from "@/gql/graphql";
+import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
 import NextImage from "next/image";
 
-export async function generateMetadata({
-	params,
-}: {
-	params: { productId: string };
-}): Promise<Metadata> {
-	const product: ProductGetByIdQuery["product"] = await getProductById(
-		parseInt(params.productId, 10),
-	);
+type ProductPageProps = {
+	params: {
+		productId: string;
+	};
+};
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+	const product: ProductItemFragment = await getProductById(params.productId);
 
 	return {
 		title: product?.name || "",
@@ -21,13 +21,7 @@ export async function generateMetadata({
 	};
 }
 
-export default async function ProductPage({
-	params,
-}: {
-	params: {
-		productId: number;
-	};
-}) {
+export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
 
 	if (!product) {
@@ -37,13 +31,15 @@ export default async function ProductPage({
 	return (
 		<section className="container mx-auto py-8">
 			<div className="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow-md">
-				<NextImage
-					width={320}
-					height={320}
-					src={product.images[0].url}
-					alt={product.images[0].alt}
-					className="w-full"
-				/>
+				{product.images[0] && (
+					<NextImage
+						width={320}
+						height={320}
+						src={product.images[0].url}
+						alt={product.images[0].alt}
+						className="w-full"
+					/>
+				)}
 
 				<div className="px-4 py-2">
 					<h1 className="text-2xl font-bold text-gray-800">{product.name}</h1>

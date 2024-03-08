@@ -6,19 +6,7 @@ query ProductsGet($offset: Int, $take: Int) {
         take: $take
     ) {
         data {
-            id
-            name
-            description
-            price
-            rating
-            slug
-            categories {
-                name
-                slug
-            }
-            images {
-                url
-            }
+            ...ProductItem
         }
         meta {
             total

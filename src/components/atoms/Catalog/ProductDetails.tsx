@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { formatPrice } from "@/utils/price";
+import { ProductItemFragment } from "@/gql/graphql";
 
-export const ProductDetails = ({ product }) => {
+type ProductDetailsProps = {
+	product: ProductItemFragment;
+};
+
+export const ProductDetails = ({ product }: ProductDetailsProps) => {
 	return (
 		<div className="flex flex-col">
 			<div className="my-3 text-gray-700">

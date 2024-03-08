@@ -2,7 +2,6 @@ import { BaseHeading } from "@/ui/atoms/BaseHeading";
 import { Pagination } from "@/ui/molecules/Catalog/Pagination";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
 import { getProducts } from "@/api/products";
-import { type ProductsGetQuery } from "@/gql/graphql";
 import { notFound } from "next/navigation";
 
 // TODO: in the future, download from select with the selection of elements
@@ -10,18 +9,20 @@ const limit = 12;
 
 export const generateStaticParams = async () => {
 	const {
-		total,
+		numberOfProducts,
 	}: {
-		total: number;
-	} = await getProducts(1, limit);
+		numberOfProducts: number;
+	} = await getProducts("1", limit);
 
-	const maxGeneratedPages = 3;
-	const numberOfPages = Math.ceil(total / limit);
+	const defaultNumberOfGeneratedPages = 3;
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
+	const maximumGeneratedPages =
+		numberOfPages > defaultNumberOfGeneratedPages ? defaultNumberOfGeneratedPages : numberOfPages;
 	const pages = Array.from({ length: numberOfPages }).map((_, index): { id: string } => ({
 		id: (index + 1).toString(10),
 	}));
 
-	return pages.slice(0, maxGeneratedPages);
+	return pages.slice(0, maximumGeneratedPages);
 };
 
 export default async function ProductsPageById({ params }: { params: { id: string } }) {
@@ -29,14 +30,7 @@ export default async function ProductsPageById({ params }: { params: { id: strin
 		throw notFound();
 	}
 
-	const {
-		products,
-		total: numberOfProducts,
-	}: {
-		products: ProductsGetQuery["products"]["data"];
-		total: number;
-	} = await getProducts(params.id, limit);
-
+	const { products, numberOfProducts } = await getProducts(params.id, limit);
 	const numberOfPages = Math.ceil(numberOfProducts / limit);
 
 	return (
