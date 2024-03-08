@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import { BaseHeading } from "@/ui/atoms/BaseHeading";
 import { getProductsByCategory } from "@/api/categories";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
+import { Pagination } from "@/ui/molecules/Catalog/Pagination";
 
-//simple solution
+const limit = 12;
+
 export const generateStaticParams = async () => {
 	return [{ id: "1" }, { id: "2" }, { id: "3" }];
 };
@@ -11,20 +13,26 @@ export const generateStaticParams = async () => {
 export default async function CategoriesPage({
 	params,
 }: {
-	params: { slug?: string; id?: string };
+	params: { slug: string; pageId: string };
 }) {
-	if (!params.slug) {
+	if (!params.slug || !parseInt(params.pageId)) {
 		throw notFound();
 	}
 
 	const products = await getProductsByCategory(params.slug);
+	const numberOfProducts = products.length;
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
+
+	if (parseInt(params.pageId) > numberOfPages) {
+		throw notFound();
+	}
 
 	return (
 		<section className="grid grid-cols-1 gap-4 py-4">
 			<BaseHeading text={`Products from category ${params.slug}`} />
-			{/*{total && <Pagination numberOfPages={3} />}*/}
-			<ProductList products={products} />
-			{/*{total && <Pagination numberOfPages={3} />}*/}
+			{numberOfPages && <Pagination numberOfPages={numberOfPages} />}
+			<ProductList products={products.slice(numberOfPages - 1, limit)} />
+			{numberOfPages && <Pagination numberOfPages={numberOfPages} />}
 		</section>
 	);
 }

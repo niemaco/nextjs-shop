@@ -3,6 +3,7 @@ import { Pagination } from "@/ui/molecules/Catalog/Pagination";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
 import { getProducts } from "@/api/products";
 import { type ProductsGetQuery } from "@/gql/graphql";
+import { notFound } from "next/navigation";
 
 // TODO: in the future, download from select with the selection of elements
 const limit = 12;
@@ -15,32 +16,35 @@ export const generateStaticParams = async () => {
 	} = await getProducts(1, limit);
 
 	const maxGeneratedPages = 3;
-	const pagesCount = Math.ceil(total / limit);
-	const pages = Array.from({ length: pagesCount }).map((_, index): { id: string } => ({
+	const numberOfPages = Math.ceil(total / limit);
+	const pages = Array.from({ length: numberOfPages }).map((_, index): { id: string } => ({
 		id: (index + 1).toString(10),
 	}));
 
 	return pages.slice(0, maxGeneratedPages);
 };
 
-export default async function ProductsPageById({ params }: { params: { id?: string } }) {
-	const pageId = parseInt(params?.id || "1");
+export default async function ProductsPageById({ params }: { params: { id: string } }) {
+	if (!parseInt(params.id)) {
+		throw notFound();
+	}
+
 	const {
 		products,
-		total,
+		total: numberOfProducts,
 	}: {
 		products: ProductsGetQuery["products"]["data"];
 		total: number;
-	} = await getProducts(pageId, limit);
+	} = await getProducts(params.id, limit);
 
-	const pagesCount = Math.ceil(total / limit);
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
 
 	return (
 		<section className="grid grid-cols-1 gap-4 py-4">
 			<BaseHeading text="Our 20 products" />
-			{total && <Pagination numberOfPages={pagesCount} />}
+			<Pagination numberOfPages={numberOfPages} />
 			<ProductList products={products} />
-			{total && <Pagination numberOfPages={pagesCount} />}
+			<Pagination numberOfPages={numberOfPages} />
 		</section>
 	);
 }
