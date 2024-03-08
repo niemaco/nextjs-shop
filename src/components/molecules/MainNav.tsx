@@ -1,6 +1,8 @@
 import { ShoppingCart } from "lucide-react";
 import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
 import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
+import NextImage from "next/image";
+import AppLogo from "../../../public/logo.jpeg";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
@@ -11,7 +13,7 @@ type NavLink = ActiveLinkProps<string> & {
 
 const navLinks: NavLink[] = [
 	{
-		children: "Home",
+		children: "Homepage",
 		href: "/",
 		exact: true,
 		icon: "home",
@@ -44,6 +46,13 @@ const navLinks: NavLink[] = [
 export const MainNav = () => {
 	return (
 		<nav className="flex items-center justify-between">
+			<NextImage
+				width={80}
+				height={80}
+				className="aspect-square rounded-full"
+				src={AppLogo}
+				alt="Logo"
+			/>
 			<ul className="flex list-none flex-wrap">
 				{navLinks.map(({ href, children, exact, icon }, index) => (
 					<li key={index} className="group flex items-center gap-x-2 p-4 first:pl-0 last:pr-0 ">

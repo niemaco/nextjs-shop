@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
 import { type ProductGetByIdQuery } from "@/gql/graphql";
+import NextImage from "next/image";
 
 export async function generateMetadata({
 	params,
@@ -27,9 +28,7 @@ export default async function ProductPage({
 		productId: number;
 	};
 }) {
-	const product: ProductGetByIdQuery["product"] = await getProductById(
-		parseInt(params.productId, 10),
-	);
+	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
 
 	if (!product) {
 		throw notFound();
@@ -38,7 +37,13 @@ export default async function ProductPage({
 	return (
 		<section className="container mx-auto py-8">
 			<div className="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow-md">
-				<img src={product.images[0].url} alt={product.images[0].alt} className="w-full" />
+				<NextImage
+					width={320}
+					height={320}
+					src={product.images[0].url}
+					alt={product.images[0].alt}
+					className="w-full"
+				/>
 
 				<div className="px-4 py-2">
 					<h1 className="text-2xl font-bold text-gray-800">{product.name}</h1>
@@ -52,9 +57,11 @@ export default async function ProductPage({
 						Add to Cart
 					</button>
 
+					<p className="py-2 text-gray-700">{product.description}</p>
+
 					<div className="grid grid-flow-col items-end justify-between pb-4">
 						{product.categories.length && (
-							<p className="shrink px-4 py-2 text-gray-700">
+							<p className="shrink text-gray-700">
 								<span>Categories: </span>
 								{product.categories.map((category: { name: string; slug: string }) => (
 									<Link
@@ -62,21 +69,22 @@ export default async function ProductPage({
 										href={`/categories/${category.slug}/1`}
 										className="mr-2 text-blue-500 hover:underline focus-visible:underline"
 									>
-										{category.name} {category.slug}
+										{category.name}
 									</Link>
 								))}
 							</p>
 						)}
 
 						<Link href="#" className="hover:underline focus-visible:underline">
-							<img
+							<NextImage
 								src="/red_shoes_logo.jpeg"
 								alt="Manufacturer Logo"
 								className="mx-auto h-20 w-20 rounded-full"
+								width={40}
+								height={40}
 							/>
 						</Link>
 					</div>
-					<p className="py-2 text-gray-700">{product.description}</p>
 				</div>
 			</div>
 		</section>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 import { MainNav } from "@/ui/molecules/MainNav";
 
-const inter = Inter({ subsets: ["latin"] });
+const lato = Lato({ weight: ["400", "700"], subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body className={lato.className}>
 				<header className="container mx-auto border-b-2 p-4">
 					<MainNav></MainNav>
 				</header>

@@ -20,6 +20,14 @@ const nextConfig = {
 			},
 		];
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "static-ourstore.hyperfunctor.com",
+			},
+		],
+	},
 };
 
 module.exports = withMDX(nextConfig);
