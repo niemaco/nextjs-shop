@@ -1,0 +1,16 @@
+query ProductsGetByCollection($slug: String!) {
+    collection(slug: $slug) {
+        products {
+            id
+            name
+            price
+            slug
+            categories {
+                name
+            }
+            images {
+                url
+            }
+        }
+    }
+}
