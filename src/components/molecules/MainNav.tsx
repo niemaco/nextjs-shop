@@ -1,36 +1,84 @@
+import { ShoppingCart } from "lucide-react";
 import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
+import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
+import NextImage from "next/image";
+import AppLogo from "../../../public/logo.jpeg";
+import { SearchForm } from "@/ui/molecules/SearchForm";
 
 const className: string =
-	"p-4 first:pl-0 last:pr-0 text-grey-400 hover:text-blue-400 focus-visible:text-blue-400";
+	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
 
-const navLinks: ActiveLinkProps<string>[] = [
+type NavLink = ActiveLinkProps<string> & {
+	icon?: IconProps["name"];
+};
+
+const navLinks: NavLink[] = [
 	{
-		children: "Home",
+		children: "Homepage",
 		href: "/",
 		exact: true,
+		icon: "home",
 	},
 	{
-		children: "All",
+		children: "Products",
 		href: "/products",
+		icon: "layout-list",
 	},
 	{
-		children: "Blog",
-		href: "/blog",
+		children: "Accessories",
+		href: "/categories/accessories",
+	},
+	{
+		children: "Hoodies",
+		href: "/categories/hoodies",
+	},
+	{
+		children: "T-shirts",
+		href: "/categories/t-shirts",
+		icon: "shirt",
+	},
+	{
+		children: "Notes",
+		href: "/notes",
+		icon: "notebook",
 	},
 ];
 
 export const MainNav = () => {
 	return (
-		<nav>
-			<ul className="list-none">
-				<li>
-					{navLinks.map(({ href, children, exact }, index) => (
+		<nav className="flex items-center justify-between">
+			<NextImage
+				width={80}
+				height={80}
+				className="aspect-square rounded-full"
+				src={AppLogo}
+				alt="Logo"
+			/>
+
+			<SearchForm />
+
+			<ul className="flex list-none flex-wrap">
+				{navLinks.map(({ href, children, exact, icon }, index) => (
+					<li key={index} className="group flex items-center gap-x-2 p-4 first:pl-0 last:pr-0 ">
+						{icon && (
+							<BaseIcon
+								name={icon}
+								size={20}
+								className="group-hover:text-blue-400 group-focus-visible:text-blue-400"
+							/>
+						)}
 						<ActiveLink key={index} href={href} className={className} exact={exact}>
 							{children}
 						</ActiveLink>
-					))}
-				</li>
+					</li>
+				))}
 			</ul>
+
+			<div className="flex text-gray-600">
+				<ShoppingCart className="mr-2" />
+				<span>0</span>
+				<span className="sr-only">Shopping Cart</span>
+			</div>
 		</nav>
 	);
 };

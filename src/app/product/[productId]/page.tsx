@@ -1,33 +1,45 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getProductById } from "@/api/products";
+import { notFound } from "next/navigation";
+import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
+import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
+import NextImage from "next/image";
 
-export async function generateMetadata({
-	params,
-}: {
-	params: { productId: string };
-}): Promise<Metadata> {
-	const product = await getProductById(params.productId);
-	return {
-		title: product.name,
-		description: product.description,
-	};
-}
-
-export default async function ProductPage({
-	params,
-}: {
+type ProductPageProps = {
 	params: {
 		productId: string;
 	};
-}) {
-	const product = await getProductById(params.productId);
+};
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+	const product: ProductItemFragment = await getProductById(params.productId);
+
+	return {
+		title: product?.name || "",
+		description: product?.description || "",
+	};
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
+	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
+
+	if (!product) {
+		throw notFound();
+	}
 
 	return (
 		<section className="container mx-auto py-8">
 			<div className="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow-md">
-				<img src={product.image.src} alt={product.image.alt} className="w-full" />
+				{product.images[0] && (
+					<NextImage
+						width={320}
+						height={320}
+						src={product.images[0].url}
+						alt={product.images[0].alt}
+						className="w-full"
+					/>
+				)}
 
 				<div className="px-4 py-2">
 					<h1 className="text-2xl font-bold text-gray-800">{product.name}</h1>
@@ -41,24 +53,34 @@ export default async function ProductPage({
 						Add to Cart
 					</button>
 
-					<div className="grid grid-flow-col items-end justify-between pb-4">
-						<p className="shrink px-4 py-2 text-gray-700">
-							<span>Category: </span>
+					<p className="py-2 text-gray-700">{product.description}</p>
 
-							<Link href="#" className="text-blue-500 hover:underline focus-visible:underline">
-								{product.category}
-							</Link>
-						</p>
+					<div className="grid grid-flow-col items-end justify-between pb-4">
+						{product.categories.length && (
+							<p className="shrink text-gray-700">
+								<span>Categories: </span>
+								{product.categories.map((category: { name: string; slug: string }) => (
+									<Link
+										key={category.name}
+										href={`/categories/${category.slug}/1`}
+										className="mr-2 text-blue-500 hover:underline focus-visible:underline"
+									>
+										{category.name}
+									</Link>
+								))}
+							</p>
+						)}
 
 						<Link href="#" className="hover:underline focus-visible:underline">
-							<img
+							<NextImage
 								src="/red_shoes_logo.jpeg"
 								alt="Manufacturer Logo"
 								className="mx-auto h-20 w-20 rounded-full"
+								width={40}
+								height={40}
 							/>
 						</Link>
 					</div>
-					<p className="py-2 text-gray-700">{product.description}</p>
 				</div>
 			</div>
 		</section>

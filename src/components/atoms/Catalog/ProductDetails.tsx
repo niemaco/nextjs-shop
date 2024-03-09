@@ -1,26 +1,44 @@
 import Link from "next/link";
-import type { CatalogProductDetails } from "@/types/Catalog/Product";
 import { formatPrice } from "@/utils/price";
+import { ProductItemFragment } from "@/gql/graphql";
 
-export const ProductDetails = ({
-	product: { category, name, price, id },
-}: CatalogProductDetails) => {
+type ProductDetailsProps = {
+	product: ProductItemFragment;
+};
+
+export const ProductDetails = ({ product }: ProductDetailsProps) => {
 	return (
 		<div className="flex flex-col">
 			<div className="my-3 text-gray-700">
 				<h3 className="text-lg font-semibold">
 					<Link
-						href={`/product/${id}`}
-						className=" hover:text-red-400 focus-visible:text-red-400 group-hover:text-red-600 group-focus-visible:grayscale-0"
+						href={`/product/${product.id}`}
+						className="hover:text-red-400 focus-visible:text-red-400 group-hover:text-red-600 group-focus-visible:grayscale-0"
 					>
-						{name}
+						{product.name}
 					</Link>
 				</h3>
-				<div className="mb-3">
-					<span className="sr-only">Category</span> <span>{category}</span>
-				</div>
+
+				{product?.categories?.length && (
+					<div className="mb-3">
+						<span className="sr-only">Categories</span>
+						{product.categories.map(
+							(
+								category: {
+									name: string;
+									slug: string;
+								},
+								index,
+							) => (
+								<Link key={index} href={`/categories/${category.slug}/1`}>
+									{category.name}
+								</Link>
+							),
+						)}
+					</div>
+				)}
 				<div>
-					<span className="sr-only">Price</span> <span>{formatPrice(price)}</span>
+					<span className="sr-only">Price</span> <span>{formatPrice(product.price)}</span>
 				</div>
 			</div>
 		</div>

@@ -1,15 +1,15 @@
 import { ProductListItem } from "@/ui/molecules/Catalog/ProductListItem";
 import { ProductItemFragment } from "@/gql/graphql";
 
-type ProductListProps = {
+type RelatedProductsProps = {
 	products: ProductItemFragment[];
 };
 
-export const ProductList = ({ products }: ProductListProps) => {
+export const RelatedProducts = ({ products }: RelatedProductsProps) => {
 	return (
 		<ul
 			className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
-			data-testid="products-list"
+			data-testid="related-products"
 		>
 			{products.map((product) => (
 				<ProductListItem key={product.id} product={product} />

@@ -2,29 +2,43 @@ import { BaseHeading } from "@/ui/atoms/BaseHeading";
 import { Pagination } from "@/ui/molecules/Catalog/Pagination";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
 import { getProducts } from "@/api/products";
+import { notFound } from "next/navigation";
 
-//simple solution
+// TODO: in the future, download from select with the selection of elements
+const limit = 12;
+
 export const generateStaticParams = async () => {
-	return [{ id: "1" }, { id: "2" }, { id: "3" }];
+	const {
+		numberOfProducts,
+	}: {
+		numberOfProducts: number;
+	} = await getProducts("1", limit);
+
+	const defaultNumberOfGeneratedPages = 3;
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
+	const maximumGeneratedPages =
+		numberOfPages > defaultNumberOfGeneratedPages ? defaultNumberOfGeneratedPages : numberOfPages;
+	const pages = Array.from({ length: numberOfPages }).map((_, index): { id: string } => ({
+		id: (index + 1).toString(10),
+	}));
+
+	return pages.slice(0, maximumGeneratedPages);
 };
 
-// TODO hard option
-// export const getStaticProps = async () => {
-// 	get count od product pages
-// 	return productsPages.map((page) => ({ id: page.id })).slice(0,3);
-//};
+export default async function ProductsPageById({ params }: { params: { id: string } }) {
+	if (!parseInt(params.id)) {
+		throw notFound();
+	}
 
-export default async function ProductsPageById({ params }: { params: { id?: string } }) {
-	const pageId = parseInt(params?.id || "1");
-	const products = await getProducts(pageId);
+	const { products, numberOfProducts } = await getProducts(params.id, limit);
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
 
-	//TODO: get metadata from graphQL about numbers of all pages
 	return (
 		<section className="grid grid-cols-1 gap-4 py-4">
 			<BaseHeading text="Our 20 products" />
-			<Pagination numberOfPages={3} />
+			<Pagination numberOfPages={numberOfPages} />
 			<ProductList products={products} />
-			<Pagination numberOfPages={3} />
+			<Pagination numberOfPages={numberOfPages} />
 		</section>
 	);
 }
