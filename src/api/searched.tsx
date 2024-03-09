@@ -4,7 +4,7 @@ import { ProductItemFragment, ProductsGetSearchedDocument } from "@/gql/graphql"
 export const getSearchedProducts = async (
 	offset: string,
 	take: string,
-	search: String,
+	search: string,
 ): Promise<ProductItemFragment[]> => {
 	const graphqlResponse = await executeGraphql(ProductsGetSearchedDocument, {
 		offset: parseInt(offset, 10),
