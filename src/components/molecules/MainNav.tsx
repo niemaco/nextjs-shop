@@ -3,6 +3,7 @@ import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
 import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
 import NextImage from "next/image";
 import AppLogo from "../../../public/logo.jpeg";
+import { SearchForm } from "@/ui/molecules/SearchForm";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
@@ -53,6 +54,9 @@ export const MainNav = () => {
 				src={AppLogo}
 				alt="Logo"
 			/>
+
+			<SearchForm />
+
 			<ul className="flex list-none flex-wrap">
 				{navLinks.map(({ href, children, exact, icon }, index) => (
 					<li key={index} className="group flex items-center gap-x-2 p-4 first:pl-0 last:pr-0 ">
