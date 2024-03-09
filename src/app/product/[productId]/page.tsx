@@ -94,10 +94,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 						<span className="font-bold text-green-600">{formatPrice(product.price)}</span>
 					</p>
 
-					<button className="mb-4 rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-						Add to Cart
-					</button>
-
+					<form action={addProductToCartAction}>
+						<input type="hidden" name="productId" value={product.id} />
+						<AddToCartButton />
+					</form>
 					<p className="py-2 text-gray-700">{product.description}</p>
 
 					<div className="grid grid-flow-col items-end justify-between pb-4">
