@@ -5,6 +5,9 @@ import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
 import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
 import NextImage from "next/image";
+import { cookies } from "next/headers";
+import { addToCart, createOrFindCart, getCartById } from "@/api/cart";
+import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
 
 type ProductPageProps = {
 	params: {
@@ -21,12 +24,54 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 	};
 }
 
+const getOrCreateCart = async () => {
+	const cartId = cookies().get("cartId")?.value;
+	console.log("cartId from cookie: ", { cartId });
+	if (cartId) {
+		const cart = await getCartById(cartId);
+		if (cart) {
+			return cart;
+		}
+	}
+
+	const newCart = await createOrFindCart();
+	if (!newCart.id) {
+		throw new Error("Failed to create cart");
+	}
+
+	console.log("New cartId from graphql: ", newCart.id);
+	cookies().set("cartId", newCart.id);
+	return newCart;
+};
+
+const addProductToCart = async (cartId: string, productId: string) => {
+	const product = await getProductById(productId);
+
+	if (!product) {
+		throw new Error(`Product with id ${productId} not found`);
+	}
+
+	const success = await addToCart(cartId, productId);
+
+	if (!success) {
+		throw new Error("Failed to add product to cart");
+	}
+
+	return success;
+};
 export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
 
 	if (!product) {
 		throw notFound();
 	}
+
+	const addProductToCartAction = async () => {
+		"use server";
+		const cart = await getOrCreateCart();
+
+		await addProductToCart(cart.id, params.productId);
+	};
 
 	return (
 		<section className="container mx-auto py-8">
