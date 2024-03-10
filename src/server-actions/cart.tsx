@@ -1,6 +1,6 @@
 "use server";
 
-import { changeCartQuantity } from "@/api/cart";
+import { changeCartQuantity, removeItem } from "@/api/cart";
 
 const changeItemQuantity = async (cartId: string, productId: string, quantity: number) => {
 	const cart = await changeCartQuantity(cartId, productId, quantity);
@@ -9,4 +9,8 @@ const changeItemQuantity = async (cartId: string, productId: string, quantity: n
 	return CartItem?.quantity;
 };
 
-export { changeItemQuantity };
+const removeCartItem = async (cartId: string, productId: string) => {
+	return await removeItem(cartId, productId);
+};
+
+export { changeItemQuantity, removeCartItem };

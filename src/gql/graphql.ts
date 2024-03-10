@@ -301,6 +301,14 @@ export type CartFindOrCreateMutationVariables = Exact<{
 
 export type CartFindOrCreateMutation = { cartFindOrCreate: { id: string, items: Array<{ quantity: number, product: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string, alt: string }> } }> } };
 
+export type CartRemoveItemMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type CartRemoveItemMutation = { cartRemoveItem: { id: string, items: Array<{ quantity: number, product: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string, alt: string }> } }> } };
+
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -505,6 +513,33 @@ export const CartFindOrCreateDocument = new TypedDocumentString(`
   url
   alt
 }`) as unknown as TypedDocumentString<CartFindOrCreateMutation, CartFindOrCreateMutationVariables>;
+export const CartRemoveItemDocument = new TypedDocumentString(`
+    mutation CartRemoveItem($cartId: ID!, $productId: ID!) {
+  cartRemoveItem(id: $cartId, productId: $productId) {
+    id
+    items {
+      product {
+        id
+        name
+        price
+        slug
+        categories {
+          name
+          slug
+        }
+        description
+        images {
+          ...ProductImage
+        }
+      }
+      quantity
+    }
+  }
+}
+    fragment ProductImage on ProductImage {
+  url
+  alt
+}`) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   cart(id: $id) {

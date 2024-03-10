@@ -4,6 +4,7 @@ import {
 	CartChangeItemQuantityDocument,
 	CartFindOrCreateDocument,
 	CartGetByIdDocument,
+	CartRemoveItemDocument,
 	MutationCartAddItemInput,
 	MutationCartFindOrCreateInput,
 } from "@/gql/graphql";
@@ -75,4 +76,16 @@ export const changeCartQuantity = async (cartId: string, productId: string, quan
 	});
 
 	return graphqlResponse.cartChangeItemQuantity;
+};
+
+export const removeItem = async (cartId: string, productId: string) => {
+	const graphqlResponse = await executeGraphql({
+		query: CartRemoveItemDocument,
+		variables: {
+			cartId,
+			productId,
+		},
+	});
+
+	return graphqlResponse.cartRemoveItem;
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic } from "react";
-import { changeItemQuantity } from "@/server-actions/changeItemQuantity";
+import { changeItemQuantity } from "@/server-actions/cart";
 
 type ChangeQuantityProps = {
 	cartId: string;

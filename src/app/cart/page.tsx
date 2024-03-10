@@ -2,6 +2,7 @@ import { formatPrice } from "@/utils/price";
 import { ChangeQuantity } from "@/ui/atoms/ChangeQuantity";
 import { getCart } from "@/utils/cart";
 import Link from "next/link";
+import { RemoveButton } from "@/ui/atoms/RemoveButton";
 
 export default async function CartPage() {
 	const cart = await getCart();
@@ -22,6 +23,7 @@ export default async function CartPage() {
 							<th>Product</th>
 							<th>Quantity</th>
 							<th>Price</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -40,6 +42,9 @@ export default async function CartPage() {
 										/>
 									</td>
 									<td>{formatPrice(item.product.price)}</td>
+									<td className="px-4 py-2">
+										<RemoveButton productId={item.product.id} cartId={cart.id} />
+									</td>
 								</tr>
 							);
 						})}
