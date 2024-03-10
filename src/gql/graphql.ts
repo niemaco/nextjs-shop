@@ -282,7 +282,16 @@ export type CartAddItemMutationVariables = Exact<{
 }>;
 
 
-export type CartAddItemMutation = { cartAddItem: { id: string, items: Array<{ product: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string, alt: string }> } }> } };
+export type CartAddItemMutation = { cartAddItem: { id: string, items: Array<{ quantity: number, product: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string, alt: string }> } }> } };
+
+export type CartChangeItemQuantityMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CartChangeItemQuantityMutation = { cartChangeItemQuantity: { id: string, items: Array<{ quantity: number, product: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string, alt: string }> } }> } };
 
 export type CartFindOrCreateMutationVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -421,36 +430,18 @@ export const CartAddItemDocument = new TypedDocumentString(`
     id
     items {
       product {
-        ...ProductItem
-      }
-    }
-  }
-}
-    fragment ProductImage on ProductImage {
-  url
-  alt
-}
-fragment ProductItem on Product {
-  id
-  name
-  price
-  slug
-  categories {
-    name
-    slug
-  }
-  description
-  images {
-    ...ProductImage
-  }
-}`) as unknown as TypedDocumentString<CartAddItemMutation, CartAddItemMutationVariables>;
-export const CartFindOrCreateDocument = new TypedDocumentString(`
-    mutation CartFindOrCreate($id: ID, $input: MutationCartFindOrCreateInput!) {
-  cartFindOrCreate(id: $id, input: $input) {
-    id
-    items {
-      product {
-        ...ProductItem
+        id
+        name
+        price
+        slug
+        categories {
+          name
+          slug
+        }
+        description
+        images {
+          ...ProductImage
+        }
       }
       quantity
     }
@@ -459,20 +450,60 @@ export const CartFindOrCreateDocument = new TypedDocumentString(`
     fragment ProductImage on ProductImage {
   url
   alt
+}`) as unknown as TypedDocumentString<CartAddItemMutation, CartAddItemMutationVariables>;
+export const CartChangeItemQuantityDocument = new TypedDocumentString(`
+    mutation CartChangeItemQuantity($cartId: ID!, $productId: ID!, $quantity: Int!) {
+  cartChangeItemQuantity(id: $cartId, productId: $productId, quantity: $quantity) {
+    id
+    items {
+      product {
+        id
+        name
+        price
+        slug
+        categories {
+          name
+          slug
+        }
+        description
+        images {
+          ...ProductImage
+        }
+      }
+      quantity
+    }
+  }
 }
-fragment ProductItem on Product {
-  id
-  name
-  price
-  slug
-  categories {
-    name
-    slug
+    fragment ProductImage on ProductImage {
+  url
+  alt
+}`) as unknown as TypedDocumentString<CartChangeItemQuantityMutation, CartChangeItemQuantityMutationVariables>;
+export const CartFindOrCreateDocument = new TypedDocumentString(`
+    mutation CartFindOrCreate($id: ID, $input: MutationCartFindOrCreateInput!) {
+  cartFindOrCreate(id: $id, input: $input) {
+    id
+    items {
+      product {
+        id
+        name
+        price
+        slug
+        categories {
+          name
+          slug
+        }
+        description
+        images {
+          ...ProductImage
+        }
+      }
+      quantity
+    }
   }
-  description
-  images {
-    ...ProductImage
-  }
+}
+    fragment ProductImage on ProductImage {
+  url
+  alt
 }`) as unknown as TypedDocumentString<CartFindOrCreateMutation, CartFindOrCreateMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {

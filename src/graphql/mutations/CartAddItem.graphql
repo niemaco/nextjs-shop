@@ -1,13 +1,25 @@
 mutation CartAddItem($id: ID!, $input: MutationCartAddItemInput!) {
-    cartAddItem(
-        id: $id,
-        input: $input
-    ) {
-        id
-        items {
-            product {
-                ...ProductItem
-            }
-        }
-    }
+	cartAddItem(
+		id: $id,
+		input: $input
+	) {
+		id
+		items {
+			product {
+				id
+				name
+				price
+				slug
+				categories {
+					name
+					slug
+				}
+				description
+				images {
+					...ProductImage
+				}
+			}
+			quantity
+		}
+	}
 }

@@ -1,9 +1,11 @@
 import { executeGraphql } from "@/api/graphql";
 import {
 	CartAddItemDocument,
+	CartChangeItemQuantityDocument,
 	CartFindOrCreateDocument,
 	CartGetByIdDocument,
 	MutationCartAddItemInput,
+	MutationCartFindOrCreateInput,
 } from "@/gql/graphql";
 import { notFound } from "next/navigation";
 
@@ -27,10 +29,18 @@ export const addToCart = async (cartId: string, productId: string): Promise<bool
 	return cartId === graphqlResponse.cartAddItem.id;
 };
 
-export const createOrFindCart = async (input?: MutationCartAddItemInput, id?: string) => {
-	const graphqlResponse = await executeGraphql(CartFindOrCreateDocument, {
-		input: {},
-	});
+export const createOrFindCart = async (input?: MutationCartFindOrCreateInput, id?: string) => {
+	let graphqlResponse = null;
+	if (id && input) {
+		graphqlResponse = await executeGraphql(CartFindOrCreateDocument, {
+			id,
+			input,
+		});
+	} else {
+		graphqlResponse = await executeGraphql(CartFindOrCreateDocument, {
+			input: {},
+		});
+	}
 
 	if (!graphqlResponse.cartFindOrCreate.id) {
 		throw notFound();
@@ -45,4 +55,14 @@ export const getCartById = async (cartId: string) => {
 	});
 
 	return graphqlResponse.cart;
+};
+
+export const changeCartQuantity = async (cartId: string, productId: string, quantity: number) => {
+	const graphqlResponse = await executeGraphql(CartChangeItemQuantityDocument, {
+		cartId,
+		productId,
+		quantity,
+	});
+
+	return graphqlResponse.cartChangeItemQuantity;
 };
