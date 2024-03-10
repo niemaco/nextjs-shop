@@ -4,10 +4,9 @@ import { RelatedProducts } from "@/ui/organisms/RelatedProducts";
 
 export default async function HomePage() {
 	const sortOrderKind: SortDirection[] = ["ASC", "DESC"];
-	const sortOrder: SortDirection = Math.floor(Math.random()) ? sortOrderKind[1] : sortOrderKind[0];
+	const sortOrder = sortOrderKind[Math.floor(Math.random())] || "ASC";
 	const sortByKind: ProductSortBy[] = ["DEFAULT", "NAME", "PRICE", "RATING"];
-
-	const sortBy: ProductSortBy = Math.floor(Math.random() * 4) ? sortByKind[1] : sortByKind[0];
+	const sortBy = sortByKind[Math.floor(Math.random() * 4)] || "DEFAULT";
 	const relatedProducts = await getRelatedProducts("0", "4", sortOrder, sortBy);
 
 	return (
