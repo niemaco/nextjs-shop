@@ -12,6 +12,9 @@ export const getProducts = async (page: string = "1", limit = 12): Promise<Produ
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetDocument,
 		variables: { offset, limit },
+		next: {
+			revalidate: 60 * 60 * 24, // 1 day
+		},
 	});
 
 	return {

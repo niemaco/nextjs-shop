@@ -18,6 +18,7 @@ export const getCartById = async (cartId: string) => {
 		variables: {
 			id: cartId,
 		},
+		cache: "no-store",
 		next: { tags: ["cart"] },
 	});
 
