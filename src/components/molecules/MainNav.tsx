@@ -4,6 +4,7 @@ import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
 import NextImage from "next/image";
 import AppLogo from "../../../public/logo.jpeg";
 import { SearchForm } from "@/ui/molecules/SearchForm";
+import { getCartItemCount, getExistingCart } from "@/utils/cart";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
@@ -44,7 +45,10 @@ const navLinks: NavLink[] = [
 	},
 ];
 
-export const MainNav = () => {
+export const MainNav = async () => {
+	const cart = await getExistingCart();
+	const quantity = getCartItemCount(cart);
+
 	return (
 		<nav className="flex items-center justify-between">
 			<NextImage
@@ -76,7 +80,7 @@ export const MainNav = () => {
 
 			<div className="flex text-gray-600">
 				<ShoppingCart className="mr-2" />
-				<span>0</span>
+				<span>{quantity}</span>
 				<span className="sr-only">Shopping Cart</span>
 			</div>
 		</nav>

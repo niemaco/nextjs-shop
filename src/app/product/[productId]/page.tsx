@@ -5,9 +5,10 @@ import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
 import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
 import NextImage from "next/image";
-import { cookies } from "next/headers";
-import { addToCart, createOrFindCart, getCartById } from "@/api/cart";
+import { addToCart } from "@/api/cart";
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
+import { getCart } from "@/utils/cart";
+import { revalidateTag } from "next/cache";
 
 type ProductPageProps = {
 	params: {
@@ -24,26 +25,6 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 	};
 }
 
-const getOrCreateCart = async () => {
-	const cartId = cookies().get("cartId")?.value;
-	console.log("cartId from cookie: ", { cartId });
-	if (cartId) {
-		const cart = await getCartById(cartId);
-		if (cart) {
-			return cart;
-		}
-	}
-
-	const newCart = await createOrFindCart();
-	if (!newCart.id) {
-		throw new Error("Failed to create cart");
-	}
-
-	console.log("New cartId from graphql: ", newCart.id);
-	cookies().set("cartId", newCart.id);
-	return newCart;
-};
-
 const addProductToCart = async (cartId: string, productId: string) => {
 	const product = await getProductById(productId);
 
@@ -57,6 +38,8 @@ const addProductToCart = async (cartId: string, productId: string) => {
 		throw new Error("Failed to add product to cart");
 	}
 
+	revalidateTag("cart");
+
 	return success;
 };
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -68,8 +51,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 	const addProductToCartAction = async () => {
 		"use server";
-		const cart = await getOrCreateCart();
-
+		const cart = await getCart();
 		await addProductToCart(cart.id, params.productId);
 	};
 
