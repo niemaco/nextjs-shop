@@ -1,8 +1,8 @@
 import { executeGraphql } from "@/api/graphql";
-import { ProductGetByIdDocument, ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment, ProductGetByIdDocument } from "@/gql/graphql";
 import { notFound } from "next/navigation";
 
-export const getProductById = async (productId: string): Promise<ProductItemFragment> => {
+export const getProductById = async (productId: string): Promise<ProductFragment> => {
 	const graphqlResponse = await executeGraphql({
 		query: ProductGetByIdDocument,
 		variables: { productId },

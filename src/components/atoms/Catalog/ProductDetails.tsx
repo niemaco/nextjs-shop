@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { formatPrice } from "@/utils/price";
-import { ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment } from "@/gql/graphql";
 
 type ProductDetailsProps = {
-	product: ProductItemFragment;
+	product: ProductFragment;
 };
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {

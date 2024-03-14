@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
 import NextImage from "next/image";
 import { addToCart } from "@/api/cart";
 import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
@@ -17,7 +17,7 @@ type ProductPageProps = {
 };
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-	const product: ProductItemFragment = await getProductById(params.productId);
+	const product: ProductFragment = await getProductById(params.productId);
 
 	return {
 		title: product?.name || "",

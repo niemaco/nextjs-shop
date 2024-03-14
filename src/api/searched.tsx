@@ -1,11 +1,11 @@
 import { executeGraphql } from "@/api/graphql";
-import { ProductItemFragment, ProductsGetSearchedDocument } from "@/gql/graphql";
+import { ProductFragment, ProductsGetSearchedDocument } from "@/gql/graphql";
 
 export const getSearchedProducts = async (
 	offset: string,
 	take: string,
 	search: string,
-): Promise<ProductItemFragment[]> => {
+): Promise<ProductFragment[]> => {
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetSearchedDocument,
 		variables: {

@@ -1,6 +1,6 @@
 import { executeGraphql } from "@/api/graphql";
 import {
-	ProductItemFragment,
+	ProductFragment,
 	ProductsGetRelatedDocument,
 	ProductSortBy,
 	SortDirection,
@@ -11,7 +11,7 @@ export const getRelatedProducts = async (
 	take: string,
 	sortOrder: SortDirection,
 	sortBy: ProductSortBy,
-): Promise<ProductItemFragment[]> => {
+): Promise<ProductFragment[]> => {
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetRelatedDocument,
 		variables: {

@@ -1,9 +1,9 @@
 import { ProductDetails } from "@/ui/atoms/Catalog/ProductDetails";
 import { ProductImage } from "@/ui/atoms/Catalog/ProductImage";
-import { ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment } from "@/gql/graphql";
 
 type ProductListItemProps = {
-	product: ProductItemFragment;
+	product: ProductFragment;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {

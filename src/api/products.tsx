@@ -1,8 +1,8 @@
-import { ProductItemFragment, ProductsGetDocument } from "@/gql/graphql";
+import { ProductFragment, ProductsGetDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphql";
 
 type ProductsWithMeta = {
-	products: ProductItemFragment[];
+	products: ProductFragment[];
 	numberOfProducts: number;
 };
 
