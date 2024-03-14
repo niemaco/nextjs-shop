@@ -1,7 +1,12 @@
 import Stripe from "stripe";
+import { getCart } from "@/utils/cart";
 
 type PaymentSuccessPageProps = {
-	searchParams: { sessionId: string };
+	searchParams: {
+		payment_intent_client_secret: string;
+		payment_intent: string;
+		redirect_status: string;
+	};
 };
 
 const PaymentSuccessPage = async ({ searchParams }: PaymentSuccessPageProps) => {
@@ -9,18 +14,19 @@ const PaymentSuccessPage = async ({ searchParams }: PaymentSuccessPageProps) => 
 		return null;
 	}
 
-	if (!searchParams?.sessionId) {
-		throw new Error("No required parameters");
-	}
-
 	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-		apiVersion: "2022-11-15",
+		apiVersion: "2023-10-16",
 		typescript: true,
 	});
 
-	const stripeCheckoutSession = await stripe.checkout.sessions.retrieve(searchParams.sessionId);
+	console.log(searchParams);
 
-	return <div>{stripeCheckoutSession.payment_status}</div>;
+	if (searchParams.redirect_status === "poetic-excel-prefer-thrive") {
+		const cart = await getCart();
+		cart;
+	}
+
+	return <div>{searchParams.redirect_status}</div>;
 };
 
 export default PaymentSuccessPage;

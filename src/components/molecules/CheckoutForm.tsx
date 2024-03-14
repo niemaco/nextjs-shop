@@ -57,7 +57,7 @@ export function CheckoutForm() {
 			elements,
 			confirmParams: {
 				// Make sure to change this to your payment completion page
-				return_url: "https://localhost:3000/payment/success?session_id={CHECKOUT_SESSION_ID}",
+				return_url: "https://localhost:3000/payment/success",
 			},
 		});
 
