@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest): Promise<Response> => {
 	const json: unknown = await request.json();
@@ -10,13 +10,9 @@ export const POST = async (request: NextRequest): Promise<Response> => {
 		typeof json.productId === "string"
 	) {
 		revalidatePath(`/product/${json.productId}`);
-		return NextResponse.json({}, { status: 201 });
+		revalidatePath(`/products/`);
+		revalidatePath(`/categories/`);
+		return NextResponse.json({}, { status: 200 });
 	}
-
-	return NextResponse.json(
-		{
-			message: "Invalid body",
-		},
-		{ status: 400 },
-	);
-};
+	return NextResponse.json({ error: "Bad Request" }, { status: 400 });
+}
