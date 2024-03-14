@@ -1,0 +1,25 @@
+fragment Product on Product {
+	id
+	name
+	price
+	slug
+	categories {
+		name
+		slug
+	}
+	description
+	rating
+	reviews {
+		author
+		createdAt
+		description
+		email
+		id
+		rating
+		title
+		updatedAt
+	}
+	images {
+		...ProductImage
+	}
+}

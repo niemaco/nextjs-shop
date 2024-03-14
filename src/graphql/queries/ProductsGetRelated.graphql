@@ -1,15 +1,15 @@
 query ProductsGetRelated ($offset: Int!, $take: Int!, $sortOrder: SortDirection!, $sortBy: ProductSortBy!) {
-    products(
-        order: $sortOrder,
-        orderBy: $sortBy,
-        skip: $offset,
-        take: $take
-    ) {
-        data {
-            ...ProductItem
-        }
-        meta {
-            total
-        }
-    }
+	products(
+		order: $sortOrder,
+		orderBy: $sortBy,
+		skip: $offset,
+		take: $take
+	) {
+		data {
+			...Product
+		}
+		meta {
+			total
+		}
+	}
 }

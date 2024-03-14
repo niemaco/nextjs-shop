@@ -1,14 +1,14 @@
 query ProductsGetSearched ($offset: Int!, $take: Int!, $search: String) {
-    products(
-        search: $search
-        skip: $offset,
-        take: $take
-    ) {
-        data {
-            ...ProductItem
-        }
-        meta {
-            total
-        }
-    }
+	products(
+		search: $search
+		skip: $offset,
+		take: $take
+	) {
+		data {
+			...Product
+		}
+		meta {
+			total
+		}
+	}
 }
