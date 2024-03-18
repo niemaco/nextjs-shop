@@ -6,7 +6,19 @@ export const getCartIdFromCookies = (): string | undefined => {
 };
 
 export const setCartIdInCookies = (value: string) => {
-	cookies().set("cartId" as any, value as any);
+	cookies().set(
+		"cartId" as any,
+		value as any,
+		{
+			maxAge: 60 * 60 * 24 * 365,
+			expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
+			path: "/",
+			httpOnly: true,
+			secure: true,
+			sameSite: "lax",
+			priority: "low",
+		} as any,
+	);
 };
 
 export const getExistingCart = async () => {
