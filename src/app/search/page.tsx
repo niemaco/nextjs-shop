@@ -1,6 +1,6 @@
 import { getSearchedProducts } from "@/api/searched";
 import { ProductList } from "@/ui/organisms/Catalog/ProductList";
-import { ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment } from "@/gql/graphql";
 
 type SearchParamsProps = {
 	searchParams: {
@@ -9,7 +9,7 @@ type SearchParamsProps = {
 };
 
 export default async function SearchPage({ searchParams }: SearchParamsProps) {
-	let products: ProductItemFragment[] = [];
+	let products: ProductFragment[] = [];
 
 	if (searchParams.query.length > 2) {
 		products = await getSearchedProducts("0", "12", searchParams.query);

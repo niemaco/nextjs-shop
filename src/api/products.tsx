@@ -1,16 +1,20 @@
-import { ProductItemFragment, ProductsGetDocument } from "@/gql/graphql";
+import { ProductFragment, ProductsGetDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphql";
 
 type ProductsWithMeta = {
-	products: ProductItemFragment[];
+	products: ProductFragment[];
 	numberOfProducts: number;
 };
 
+// queries
 export const getProducts = async (page: string = "1", limit = 12): Promise<ProductsWithMeta> => {
 	const offset = limit * (parseInt(page, 10) - 1);
-	const graphqlResponse = await executeGraphql(ProductsGetDocument, {
-		offset,
-		take: limit,
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetDocument,
+		variables: { offset, limit },
+		next: {
+			revalidate: 60 * 60 * 24, // 1 day
+		},
 	});
 
 	return {

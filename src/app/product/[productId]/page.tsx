@@ -3,8 +3,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { type ProductGetByIdQuery, ProductItemFragment } from "@/gql/graphql";
+import { ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
 import NextImage from "next/image";
+import { addToCart } from "@/api/cart";
+import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
+import { getCart } from "@/utils/cart";
+import { revalidateTag } from "next/cache";
+import ReviewForm from "@/ui/molecules/Catalog/ReviewForm";
 
 type ProductPageProps = {
 	params: {
@@ -13,7 +18,7 @@ type ProductPageProps = {
 };
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-	const product: ProductItemFragment = await getProductById(params.productId);
+	const product: ProductFragment = await getProductById(params.productId);
 
 	return {
 		title: product?.name || "",
@@ -21,12 +26,35 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 	};
 }
 
+const addProductToCart = async (cartId: string, productId: string) => {
+	const product = await getProductById(productId);
+
+	if (!product) {
+		throw new Error(`Product with id ${productId} not found`);
+	}
+
+	const success = await addToCart(cartId, productId);
+
+	if (!success) {
+		throw new Error("Failed to add product to cart");
+	}
+
+	revalidateTag("cart");
+
+	return success;
+};
 export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
 
 	if (!product) {
 		throw notFound();
 	}
+
+	const addProductToCartAction = async () => {
+		"use server";
+		const cart = await getCart();
+		await addProductToCart(cart.id, params.productId);
+	};
 
 	return (
 		<section className="container mx-auto py-8">
@@ -49,10 +77,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 						<span className="font-bold text-green-600">{formatPrice(product.price)}</span>
 					</p>
 
-					<button className="mb-4 rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-						Add to Cart
-					</button>
-
+					<form action={addProductToCartAction}>
+						<input type="hidden" name="productId" value={product.id} />
+						<AddToCartButton />
+					</form>
 					<p className="py-2 text-gray-700">{product.description}</p>
 
 					<div className="grid grid-flow-col items-end justify-between pb-4">
@@ -82,6 +110,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
 						</Link>
 					</div>
 				</div>
+
+				<ReviewForm productId={product.id} rating={product.rating} reviews={product.reviews} />
 			</div>
 		</section>
 	);

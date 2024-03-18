@@ -1,0 +1,15 @@
+query ProductsGet($offset: Int, $take: Int) {
+	products(
+		order: ASC,
+		orderBy: DEFAULT,
+		skip: $offset,
+		take: $take
+	) {
+		data {
+			...Product
+		}
+		meta {
+			total
+		}
+	}
+}

@@ -1,6 +1,6 @@
 import { executeGraphql } from "@/api/graphql";
 import {
-	ProductItemFragment,
+	ProductFragment,
 	ProductsGetRelatedDocument,
 	ProductSortBy,
 	SortDirection,
@@ -11,12 +11,15 @@ export const getRelatedProducts = async (
 	take: string,
 	sortOrder: SortDirection,
 	sortBy: ProductSortBy,
-): Promise<ProductItemFragment[]> => {
-	const graphqlResponse = await executeGraphql(ProductsGetRelatedDocument, {
-		offset: parseInt(offset, 10),
-		take: parseInt(take, 10),
-		sortOrder,
-		sortBy,
+): Promise<ProductFragment[]> => {
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetRelatedDocument,
+		variables: {
+			offset: parseInt(offset, 10),
+			take: parseInt(take, 10),
+			sortOrder,
+			sortBy,
+		},
 	});
 
 	return graphqlResponse.products.data || [];

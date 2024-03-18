@@ -1,0 +1,5 @@
+query OrderGetById($orderId: ID!) {
+	order(id: $orderId) {
+		...Order
+	}
+}

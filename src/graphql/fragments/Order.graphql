@@ -1,0 +1,8 @@
+fragment Order on Order {
+	id
+	status
+	totalAmount
+	createdAt
+	updatedAt
+	lines
+}
