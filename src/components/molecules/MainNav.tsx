@@ -1,10 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { ActiveLink } from "@/components/atoms/ActiveLink";
-import NextImage from "next/image";
-import AppLogo from "../../../public/logo.jpeg";
 import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/utils/cart";
-import { SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
 import { Route } from "next";
 
 const className: string =
@@ -50,13 +47,13 @@ export const MainNav = async () => {
 
 	return (
 		<nav className="flex items-center justify-between">
-			<NextImage
-				width={80}
-				height={80}
-				className="aspect-square rounded-full"
-				src={AppLogo}
-				alt="Logo"
-			/>
+			{/*<NextImage*/}
+			{/*	width={80}*/}
+			{/*	height={80}*/}
+			{/*	className="aspect-square rounded-full"*/}
+			{/*	src={AppLogo}*/}
+			{/*	alt="Logo"*/}
+			{/*/>*/}
 
 			<SearchForm />
 
@@ -77,23 +74,23 @@ export const MainNav = async () => {
 			</div>
 
 			<div className="flex w-10 items-center justify-center">
-				<SignedOut>
-					<SignInButton />
-				</SignedOut>
-				<SignIn>
-					<UserButton
-						userProfileMode="navigation"
-						userProfileUrl="/user-profile/"
-						// showName
-						appearance={{
-							elements: {
-								userButtonBox: "",
-								userButtonOuterIdentifier: "md:text-lg font-semibold blue-font dark:text-white",
-							},
-						}}
-						afterSignOutUrl={process.env.NEXT_PUBLIC_BASE_URL}
-					/>
-				</SignIn>
+				{/*<SignedOut>*/}
+				{/*	<SignInButton />*/}
+				{/*</SignedOut>*/}
+				{/*<SignIn>*/}
+				{/*	<UserButton*/}
+				{/*		userProfileMode="navigation"*/}
+				{/*		userProfileUrl="/user-profile/"*/}
+				{/*		// showName*/}
+				{/*		appearance={{*/}
+				{/*			elements: {*/}
+				{/*				userButtonBox: "",*/}
+				{/*				userButtonOuterIdentifier: "md:text-lg font-semibold blue-font dark:text-white",*/}
+				{/*			},*/}
+				{/*		}}*/}
+				{/*		afterSignOutUrl={process.env.NEXT_PUBLIC_BASE_URL}*/}
+				{/*	/>*/}
+				{/*</SignIn>*/}
 			</div>
 		</nav>
 	);
