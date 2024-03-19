@@ -1,13 +1,13 @@
 import { ProductImageFragment } from "@/gql/graphql";
 import NextImage from "next/image";
 
-type ProductImageProps = {
+type SquareProductImageProps = {
 	width: number;
 	height: number;
 	image: ProductImageFragment;
 };
 
-export const ProductImage = ({ image, width, height }: ProductImageProps) => {
+export const SquareProductImage = ({ image, width, height }: SquareProductImageProps) => {
 	return (
 		<div className="aspect-square grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0">
 			<NextImage

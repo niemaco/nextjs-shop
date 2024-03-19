@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { ProductImage } from "@/components/atoms/catalog/ProductImage";
+import { SquareProductImage } from "@/components/atoms/SquareProductImage";
 import { getProductById } from "@/api/productById";
 
 export const runtime = "edge";
@@ -37,7 +37,7 @@ export default async function og({ params }: OgProps): Promise<ImageResponse> {
 	return new ImageResponse(
 		(
 			<div tw="w-full text-white h-full flex flex-col items-center justify-center text-8xl">
-				<ProductImage height={size.height} width={size.width} image={firstImage} />
+				<SquareProductImage height={size.height} width={size.width} image={firstImage} />
 				<div>
 					<h2 tw="font-sans uppercase m-0 p-0 text-[101px] leading-4">{name}</h2>
 					<p tw="font-serif m-0 p-0 font-black">{description}</p>

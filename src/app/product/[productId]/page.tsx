@@ -9,7 +9,7 @@ import { addToCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { getCart } from "@/utils/cart";
 import { revalidateTag } from "next/cache";
-import ReviewForm from "@/components/molecules/Catalog/ReviewForm";
+import ReviewForm from "@/components/molecules/ReviewForm";
 
 type ProductPageProps = {
 	params: {

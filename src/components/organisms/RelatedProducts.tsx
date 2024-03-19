@@ -1,4 +1,4 @@
-import { ProductListItem } from "@/components/molecules/Catalog/ProductListItem";
+import { ProductListItem } from "@/components/molecules/ProductListItem";
 import { ProductFragment } from "@/gql/graphql";
 
 type RelatedProductsProps = {

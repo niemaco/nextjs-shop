@@ -3,7 +3,7 @@ import { type FormEvent, useEffect, useState } from "react";
 
 import "../../styles/strapi.module.css";
 
-export function CheckoutForm() {
+export const CheckoutForm = () => {
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -87,4 +87,4 @@ export function CheckoutForm() {
 			</form>
 		</div>
 	);
-}
+};

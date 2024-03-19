@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 
-export function AddToCartButton() {
+export const AddToCartButton = () => {
 	const status = useFormStatus();
 
 	return (
@@ -14,4 +14,4 @@ export function AddToCartButton() {
 			Add to cart
 		</button>
 	);
-}
+};

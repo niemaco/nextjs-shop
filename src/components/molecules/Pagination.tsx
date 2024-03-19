@@ -1,6 +1,7 @@
 import { ActiveLink } from "@/components/atoms/ActiveLink";
 
-export const Pagination = ({ numberOfPages }: { numberOfPages: number }) => {
+type PaginationProps = { numberOfPages: number };
+export const Pagination = ({ numberOfPages }: PaginationProps) => {
 	return (
 		<nav aria-label="pagination">
 			<ol className="relative flex list-none flex-wrap justify-center gap-4">
