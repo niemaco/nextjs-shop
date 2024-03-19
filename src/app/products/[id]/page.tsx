@@ -35,7 +35,7 @@ export default async function ProductsPageById({ params }: { params: { id: strin
 
 	return (
 		<section className="grid grid-cols-1 gap-4 py-4">
-			<BaseHeading text="Our 20 products" />
+			<BaseHeading>All products</BaseHeading>
 			<Pagination numberOfPages={numberOfPages} />
 			<ProductList products={products} />
 			<Pagination numberOfPages={numberOfPages} />

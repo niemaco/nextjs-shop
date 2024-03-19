@@ -29,8 +29,8 @@ const documents = {
     "query OrdersGet($email: String!, $order: SortDirection! = ASC, $orderBy: OrderSortBy! = DEFAULT, $skip: Int! = 0, $take: Int! = 10) {\n  orders(\n    email: $email\n    order: $order\n    orderBy: $orderBy\n    skip: $skip\n    take: $take\n  ) {\n    data {\n      ...Order\n    }\n    meta {\n      count\n      total\n    }\n  }\n}": types.OrdersGetDocument,
     "query ProductGetById($productId: ID!) {\n  product(id: $productId) {\n    ...Product\n  }\n}": types.ProductGetByIdDocument,
     "query ProductsGet($offset: Int, $take: Int) {\n  products(order: ASC, orderBy: DEFAULT, skip: $offset, take: $take) {\n    data {\n      ...Product\n    }\n    meta {\n      total\n    }\n  }\n}": types.ProductsGetDocument,
-    "query ProductsGetByCategory($slug: String!) {\n  category(slug: $slug) {\n    products {\n      ...Product\n    }\n  }\n}": types.ProductsGetByCategoryDocument,
-    "query ProductsGetByCollection($slug: String!) {\n  collection(slug: $slug) {\n    products {\n      ...Product\n    }\n  }\n}": types.ProductsGetByCollectionDocument,
+    "query ProductsGetByCategory($slug: String!) {\n  category(slug: $slug) {\n    name\n    description\n    products {\n      ...Product\n    }\n  }\n}": types.ProductsGetByCategoryDocument,
+    "query ProductsGetByCollection($slug: String!) {\n  collection(slug: $slug) {\n    name\n    description\n    products {\n      ...Product\n    }\n  }\n}": types.ProductsGetByCollectionDocument,
     "query ProductsGetRelated($offset: Int!, $take: Int!, $sortOrder: SortDirection!, $sortBy: ProductSortBy!) {\n  products(order: $sortOrder, orderBy: $sortBy, skip: $offset, take: $take) {\n    data {\n      ...Product\n    }\n    meta {\n      total\n    }\n  }\n}": types.ProductsGetRelatedDocument,
     "query ProductsGetSearched($offset: Int!, $take: Int!, $search: String) {\n  products(search: $search, skip: $offset, take: $take) {\n    data {\n      ...Product\n    }\n    meta {\n      total\n    }\n  }\n}": types.ProductsGetSearchedDocument,
 };
@@ -98,11 +98,11 @@ export function graphql(source: "query ProductsGet($offset: Int, $take: Int) {\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsGetByCategory($slug: String!) {\n  category(slug: $slug) {\n    products {\n      ...Product\n    }\n  }\n}"): typeof import('./graphql').ProductsGetByCategoryDocument;
+export function graphql(source: "query ProductsGetByCategory($slug: String!) {\n  category(slug: $slug) {\n    name\n    description\n    products {\n      ...Product\n    }\n  }\n}"): typeof import('./graphql').ProductsGetByCategoryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ProductsGetByCollection($slug: String!) {\n  collection(slug: $slug) {\n    products {\n      ...Product\n    }\n  }\n}"): typeof import('./graphql').ProductsGetByCollectionDocument;
+export function graphql(source: "query ProductsGetByCollection($slug: String!) {\n  collection(slug: $slug) {\n    name\n    description\n    products {\n      ...Product\n    }\n  }\n}"): typeof import('./graphql').ProductsGetByCollectionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

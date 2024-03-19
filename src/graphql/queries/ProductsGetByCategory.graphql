@@ -1,5 +1,7 @@
 query ProductsGetByCategory($slug: String!) {
 	category(slug: $slug) {
+		name
+		description
 		products {
 			...Product
 		}

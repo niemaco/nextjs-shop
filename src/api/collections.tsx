@@ -7,5 +7,5 @@ export const getProductsByCollection = async (slug: string) => {
 		variables: { slug },
 	});
 
-	return graphqlResponse.collection?.products || [];
+	return graphqlResponse.collection;
 };

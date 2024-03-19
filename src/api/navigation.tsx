@@ -23,7 +23,7 @@ export const mainNavigationLinks: NavigationLinkProps[] = [
 		href: "/categories/hoodies",
 	},
 	{
-		label: "T-shirts",
+		label: "T-Shirts",
 		href: "/categories/t-shirts",
 	},
 ];

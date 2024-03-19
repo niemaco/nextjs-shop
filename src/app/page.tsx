@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getRelatedProducts } from "@/api/related";
 import { type ProductSortBy, type SortDirection } from "@/gql/graphql";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts";
@@ -12,6 +13,9 @@ export default async function HomePage() {
 	return (
 		<div className="py-6">
 			<h1 className="py-4">HomePage</h1>
+			<Link href={"/collections/summer-vibes"}>Summer Vibes</Link>
+			<br />
+			<Link href={"/collections/new-arrivals"}>New Arrivals</Link>
 			<RelatedProducts products={relatedProducts} />
 		</div>
 	);
