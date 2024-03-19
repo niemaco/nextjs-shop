@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { MainNav } from "@/components/molecules/MainNav";
+import { MainNavigation } from "@/components/molecules/MainNavigation";
+import { FooterNavigation } from "@/components/molecules/FooterNavigation";
 
 const lato = Lato({
 	weight: ["400", "700"],
@@ -26,14 +27,15 @@ export default function RootLayout({
 			<html lang="en">
 				<body className={lato.variable}>
 					<header className="container mx-auto border-b-2 p-4">
-						<MainNav></MainNav>
+						<MainNavigation></MainNavigation>
 					</header>
 					<main className="container mx-auto px-4">{children}</main>
 					<footer className="container mx-auto border-t-2 px-4 py-2">
-						<p className="flex justify-between">
+						<div className="flex justify-between">
 							<span>Created by Karol Osuchowski</span>
+							<FooterNavigation />
 							<span>Copyright © 2024</span>
-						</p>
+						</div>
 					</footer>
 				</body>
 			</html>

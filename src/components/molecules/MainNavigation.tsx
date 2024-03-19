@@ -3,45 +3,12 @@ import { type Route } from "next";
 import { ActiveLink } from "@/components/atoms/ActiveLink";
 import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/api/cart";
+import { mainNavigationLinks } from "@/api/navigation";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
 
-type NavigationLinkProps = {
-	label: string;
-	href: string;
-	exact?: boolean;
-};
-
-const navLinks: NavigationLinkProps[] = [
-	{
-		label: "Homepage",
-		href: "/",
-		exact: true,
-	},
-	{
-		label: "Products",
-		href: "/products",
-	},
-	{
-		label: "Accessories",
-		href: "/categories/accessories",
-	},
-	{
-		label: "Hoodies",
-		href: "/categories/hoodies",
-	},
-	{
-		label: "T-shirts",
-		href: "/categories/t-shirts",
-	},
-	{
-		label: "Notes",
-		href: "/notes",
-	},
-];
-
-export const MainNav = async () => {
+export const MainNavigation = async () => {
 	const cart = await getExistingCart();
 	const quantity = cart ? getCartItemCount(cart) : 0;
 
@@ -58,7 +25,7 @@ export const MainNav = async () => {
 			<SearchForm />
 
 			<ul className="flex list-none flex-wrap">
-				{navLinks.map(({ href, label, exact }, index) => (
+				{mainNavigationLinks.map(({ href, label, exact }, index) => (
 					<li key={index} className="group flex items-center gap-x-2 p-4 first:pl-0 last:pr-0 ">
 						<ActiveLink key={index} href={href as Route} className={className} exact={exact}>
 							{label}
