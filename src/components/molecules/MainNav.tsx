@@ -1,54 +1,52 @@
 import { ShoppingCart } from "lucide-react";
-import { ActiveLink, type ActiveLinkProps } from "@/components/atoms/ActiveLink";
-import { BaseIcon, type IconProps } from "@/components/atoms/BaseIcon";
+import { ActiveLink } from "@/components/atoms/ActiveLink";
 import NextImage from "next/image";
 import AppLogo from "../../../public/logo.jpeg";
 import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/utils/cart";
 import { SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
+import { Route } from "next";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
 
-type NavLink = ActiveLinkProps<string> & {
-	icon?: IconProps["name"];
+type NavigationLinkProps = {
+	label: string;
+	href: string;
+	exact?: boolean;
 };
 
-const navLinks: NavLink[] = [
+const navLinks: NavigationLinkProps[] = [
 	{
-		children: "Homepage",
+		label: "Homepage",
 		href: "/",
 		exact: true,
-		icon: "home",
 	},
 	{
-		children: "Products",
+		label: "Products",
 		href: "/products",
-		icon: "layout-list",
 	},
 	{
-		children: "Accessories",
+		label: "Accessories",
 		href: "/categories/accessories",
 	},
 	{
-		children: "Hoodies",
+		label: "Hoodies",
 		href: "/categories/hoodies",
 	},
 	{
-		children: "T-shirts",
+		label: "T-shirts",
 		href: "/categories/t-shirts",
-		icon: "shirt",
 	},
 	{
-		children: "Notes",
+		label: "Notes",
 		href: "/notes",
-		icon: "notebook",
 	},
 ];
 
 export const MainNav = async () => {
 	const cart = await getExistingCart();
-	const quantity = getCartItemCount(cart);
+	const quantity = cart ? getCartItemCount(cart) : 0;
 
 	return (
 		<nav className="flex items-center justify-between">
@@ -63,17 +61,10 @@ export const MainNav = async () => {
 			<SearchForm />
 
 			<ul className="flex list-none flex-wrap">
-				{navLinks.map(({ href, children, exact, icon }, index) => (
+				{navLinks.map(({ href, label, exact }, index) => (
 					<li key={index} className="group flex items-center gap-x-2 p-4 first:pl-0 last:pr-0 ">
-						{icon && (
-							<BaseIcon
-								name={icon}
-								size={20}
-								className="group-hover:text-blue-400 group-focus-visible:text-blue-400"
-							/>
-						)}
-						<ActiveLink key={index} href={href} className={className} exact={exact}>
-							{children}
+						<ActiveLink key={index} href={href as Route} className={className} exact={exact}>
+							{label}
 						</ActiveLink>
 					</li>
 				))}
@@ -85,12 +76,25 @@ export const MainNav = async () => {
 				<span className="sr-only">Shopping Cart</span>
 			</div>
 
-			<SignIn>
-				<UserButton userProfileMode="navigation" />
-			</SignIn>
-			<SignedOut>
-				<SignInButton />
-			</SignedOut>
+			<div className="flex w-10 items-center justify-center">
+				<SignedOut>
+					<SignInButton />
+				</SignedOut>
+				<SignIn>
+					<UserButton
+						userProfileMode="navigation"
+						userProfileUrl="/user-profile/"
+						// showName
+						appearance={{
+							elements: {
+								userButtonBox: "",
+								userButtonOuterIdentifier: "md:text-lg font-semibold blue-font dark:text-white",
+							},
+						}}
+						afterSignOutUrl={process.env.NEXT_PUBLIC_BASE_URL}
+					/>
+				</SignIn>
+			</div>
 		</nav>
 	);
 };

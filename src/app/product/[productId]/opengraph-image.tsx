@@ -22,12 +22,12 @@ export default async function og({ params }: OgProps): Promise<ImageResponse> {
 	const product = await getProductById(params.productId);
 
 	if (!product) {
-		return;
+		return new ImageResponse(<div>Not Found Image</div>);
 	}
 
 	const firstImage = product?.images[0];
 	if (!firstImage) {
-		return;
+		return new ImageResponse(<div>Not Found Image</div>);
 	}
 
 	const category = product?.categories[0];

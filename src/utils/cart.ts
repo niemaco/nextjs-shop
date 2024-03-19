@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { createCart, getCartById } from "@/api/cart";
+import { CartFragment } from "@/gql/graphql";
 
 export const getCartIdFromCookies = (): string | undefined => {
 	return cookies().get("cartId" as any)?.value;
@@ -43,9 +44,9 @@ export const getCart = async () => {
 	return await createCart();
 };
 
-export const getCartItemCount = (cart) => {
+export const getCartItemCount = (cart: CartFragment): number => {
 	if (!cart?.items.length) {
 		return 0;
 	}
-	return cart.items.reduce((acc, item) => acc + item.quantity, 0);
+	return cart.items.reduce((acc: number, item) => acc + item.quantity, 0);
 };

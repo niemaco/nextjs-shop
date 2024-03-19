@@ -96,6 +96,7 @@ export const completeCart = async (cartId: string) => {
 		query: CartCompleteDocument,
 		variables: {
 			cartId,
+			userEmail: "karol.osuchowski@gmail.com",
 		},
 	});
 

@@ -20,6 +20,7 @@ const PaymentSuccessPage = async ({ searchParams }: PaymentSuccessPageProps) => 
 	});
 
 	console.log(searchParams);
+	console.log(stripe);
 
 	if (searchParams.redirect_status === "poetic-excel-prefer-thrive") {
 		const cart = await getCart();

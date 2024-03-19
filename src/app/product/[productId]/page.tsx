@@ -9,7 +9,7 @@ import { addToCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { getCart } from "@/utils/cart";
 import { revalidateTag } from "next/cache";
-import ReviewForm from "@/components/molecules/ReviewForm";
+import { ReviewForm } from "@/components/molecules/ReviewForm";
 
 type ProductPageProps = {
 	params: {
@@ -111,7 +111,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					</div>
 				</div>
 
-				<ReviewForm productId={product.id} rating={product.rating} reviews={product.reviews} />
+				<ReviewForm
+					productId={product.id}
+					rating={product?.rating || 0}
+					reviews={product.reviews}
+				/>
 			</div>
 		</section>
 	);
