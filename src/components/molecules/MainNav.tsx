@@ -5,6 +5,7 @@ import NextImage from "next/image";
 import AppLogo from "../../../public/logo.jpeg";
 import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/utils/cart";
+import { SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";
@@ -83,6 +84,13 @@ export const MainNav = async () => {
 				<span>{quantity}</span>
 				<span className="sr-only">Shopping Cart</span>
 			</div>
+
+			<SignIn>
+				<UserButton userProfileMode="navigation" />
+			</SignIn>
+			<SignedOut>
+				<SignInButton />
+			</SignedOut>
 		</nav>
 	);
 };

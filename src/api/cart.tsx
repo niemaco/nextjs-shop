@@ -2,11 +2,11 @@ import { executeGraphql } from "@/api/graphql";
 import {
 	CartAddItemDocument,
 	CartChangeItemQuantityDocument,
+	CartCompleteDocument,
 	CartFindOrCreateDocument,
 	CartGetByIdDocument,
 	CartRemoveItemDocument,
 	MutationCartAddItemInput,
-	MutationCartFindOrCreateInput,
 } from "@/gql/graphql";
 import { notFound } from "next/navigation";
 import { setCartIdInCookies } from "@/utils/cart";
@@ -49,7 +49,7 @@ export const addToCart = async (cartId: string, productId: string): Promise<bool
 	return cartId === graphqlResponse.cartAddItem.id;
 };
 
-export const createCart = async (input?: MutationCartFindOrCreateInput) => {
+export const createCart = async () => {
 	const graphqlResponse = await executeGraphql({
 		query: CartFindOrCreateDocument,
 		variables: {
@@ -89,4 +89,15 @@ export const removeItem = async (cartId: string, productId: string) => {
 	});
 
 	return graphqlResponse.cartRemoveItem;
+};
+
+export const completeCart = async (cartId: string) => {
+	const graphqlResponse = await executeGraphql({
+		query: CartCompleteDocument,
+		variables: {
+			cartId,
+		},
+	});
+
+	return graphqlResponse.cartComplete;
 };
