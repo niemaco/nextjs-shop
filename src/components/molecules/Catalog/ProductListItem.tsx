@@ -1,5 +1,5 @@
-import { ProductDetails } from "@/ui/atoms/Catalog/ProductDetails";
-import { ProductImage } from "@/ui/atoms/Catalog/ProductImage";
+import { ProductDetails } from "@/components/atoms/Catalog/ProductDetails";
+import { ProductImage } from "@/components/atoms/Catalog/ProductImage";
 import { ProductFragment } from "@/gql/graphql";
 
 type ProductListItemProps = {

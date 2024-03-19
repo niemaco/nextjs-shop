@@ -1,6 +1,6 @@
 import { getRelatedProducts } from "@/api/related";
 import { ProductSortBy, SortDirection } from "@/gql/graphql";
-import { RelatedProducts } from "@/ui/organisms/RelatedProducts";
+import { RelatedProducts } from "@/components/organisms/RelatedProducts";
 
 export default async function HomePage() {
 	const sortOrderKind: SortDirection[] = ["ASC", "DESC"];

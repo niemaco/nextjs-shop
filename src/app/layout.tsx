@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { MainNav } from "@/ui/molecules/MainNav";
+import { MainNav } from "@/components/molecules/MainNav";
 
 const lato = Lato({
 	weight: ["400", "700"],

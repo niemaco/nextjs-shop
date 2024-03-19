@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { BaseHeading } from "@/ui/atoms/BaseHeading";
+import { BaseHeading } from "@/components/atoms/BaseHeading";
 import { getProductsByCollection } from "@/api/collections";
-import { ProductList } from "@/ui/organisms/Catalog/ProductList";
+import { ProductList } from "@/components/organisms/Catalog/ProductList";
 
 export default async function CollectionsPage({ params }: { params: { slug: string } }) {
 	if (!params.slug) {

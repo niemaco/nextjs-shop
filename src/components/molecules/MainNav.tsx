@@ -1,9 +1,9 @@
 import { ShoppingCart } from "lucide-react";
-import { ActiveLink, type ActiveLinkProps } from "@/ui/atoms/ActiveLink";
-import { BaseIcon, type IconProps } from "@/ui/atoms/BaseIcon";
+import { ActiveLink, type ActiveLinkProps } from "@/components/atoms/ActiveLink";
+import { BaseIcon, type IconProps } from "@/components/atoms/BaseIcon";
 import NextImage from "next/image";
 import AppLogo from "../../../public/logo.jpeg";
-import { SearchForm } from "@/ui/molecules/SearchForm";
+import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/utils/cart";
 
 const className: string =

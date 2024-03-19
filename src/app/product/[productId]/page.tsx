@@ -6,10 +6,10 @@ import { formatPrice } from "@/utils/price";
 import { ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
 import NextImage from "next/image";
 import { addToCart } from "@/api/cart";
-import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
+import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { getCart } from "@/utils/cart";
 import { revalidateTag } from "next/cache";
-import ReviewForm from "@/ui/molecules/Catalog/ReviewForm";
+import ReviewForm from "@/components/molecules/Catalog/ReviewForm";
 
 type ProductPageProps = {
 	params: {

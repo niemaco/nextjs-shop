@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { StripeForm } from "@/ui/organisms/StripeForm";
+import { StripeForm } from "@/components/organisms/StripeForm";
 import { getCart } from "@/utils/cart";
 import { notFound } from "next/navigation";
 

@@ -1,4 +1,4 @@
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { ActiveLink } from "@/components/atoms/ActiveLink";
 
 export const Pagination = ({ numberOfPages }: { numberOfPages: number }) => {
 	return (

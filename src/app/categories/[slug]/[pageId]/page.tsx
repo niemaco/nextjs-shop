@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { BaseHeading } from "@/ui/atoms/BaseHeading";
+import { BaseHeading } from "@/components/atoms/BaseHeading";
 import { getProductsByCategory } from "@/api/categories";
-import { ProductList } from "@/ui/organisms/Catalog/ProductList";
-import { Pagination } from "@/ui/molecules/Catalog/Pagination";
+import { ProductList } from "@/components/organisms/Catalog/ProductList";
+import { Pagination } from "@/components/molecules/Catalog/Pagination";
 
 const limit = 12;
 

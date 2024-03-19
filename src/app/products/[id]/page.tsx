@@ -1,6 +1,6 @@
-import { BaseHeading } from "@/ui/atoms/BaseHeading";
-import { Pagination } from "@/ui/molecules/Catalog/Pagination";
-import { ProductList } from "@/ui/organisms/Catalog/ProductList";
+import { BaseHeading } from "@/components/atoms/BaseHeading";
+import { Pagination } from "@/components/molecules/Catalog/Pagination";
+import { ProductList } from "@/components/organisms/Catalog/ProductList";
 import { getProducts } from "@/api/products";
 import { notFound } from "next/navigation";
 
