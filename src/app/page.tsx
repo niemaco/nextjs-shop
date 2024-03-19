@@ -16,7 +16,7 @@ export default async function HomePage() {
 			<Link href={"/collections/summer-vibes"}>Summer Vibes</Link>
 			<br />
 			<Link href={"/collections/new-arrivals"}>New Arrivals</Link>
-			<RelatedProducts products={relatedProducts} />
+			<RelatedProducts products={relatedProducts} data-testid="products-list" />
 		</div>
 	);
 }

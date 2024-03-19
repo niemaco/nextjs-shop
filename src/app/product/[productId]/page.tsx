@@ -3,12 +3,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import NextImage from "next/image";
 import { revalidateTag } from "next/cache";
+import { Suspense } from "react";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { type ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
+import {
+	type ProductFragment,
+	type ProductGetByIdQuery,
+	type ProductSortBy,
+	type SortDirection,
+} from "@/gql/graphql";
 import { addToCart, getCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { ReviewForm } from "@/components/molecules/ReviewForm";
+import { RelatedProducts } from "@/components/organisms/RelatedProducts";
+import { getRelatedProducts } from "@/api/related";
 
 type ProductPageProps = {
 	params: {
@@ -44,6 +52,12 @@ const addProductToCart = async (cartId: string, productId: string) => {
 };
 export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
+
+	const sortOrderKind: SortDirection[] = ["ASC", "DESC"];
+	const sortOrder = sortOrderKind[Math.floor(Math.random())] || "ASC";
+	const sortByKind: ProductSortBy[] = ["DEFAULT", "NAME", "PRICE", "RATING"];
+	const sortBy = sortByKind[Math.floor(Math.random() * 4)] || "DEFAULT";
+	const relatedProducts = await getRelatedProducts("0", "4", sortOrder, sortBy);
 
 	if (!product) {
 		throw notFound();
@@ -116,6 +130,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					reviews={product.reviews}
 				/>
 			</div>
+
+			<Suspense>
+				<RelatedProducts products={relatedProducts} data-testid="related-products" />
+			</Suspense>
 		</section>
 	);
 }
