@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { formatPrice } from "@/utils/price";
 import { ChangeQuantity } from "@/components/atoms/ChangeQuantity";
-import { getCart } from "@/utils/cart";
 import { RemoveButton } from "@/components/atoms/RemoveButton";
+import { getCart } from "@/api/cart";
 
 export default async function CartPage() {
 	const cart = await getCart();

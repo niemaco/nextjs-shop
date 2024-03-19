@@ -5,11 +5,12 @@ import {
 	CartChangeItemQuantityDocument,
 	CartCompleteDocument,
 	CartFindOrCreateDocument,
+	type CartFragment,
 	CartGetByIdDocument,
 	CartRemoveItemDocument,
 	type MutationCartAddItemInput,
 } from "@/gql/graphql";
-import { setCartIdInCookies } from "@/utils/cart";
+import { getCartIdFromCookies, setCartIdInCookies } from "@/utils/cart";
 
 // queries
 export const getCartById = async (cartId: string) => {
@@ -101,4 +102,33 @@ export const completeCart = async (cartId: string) => {
 	});
 
 	return graphqlResponse.cartComplete;
+};
+
+export const getExistingCart = async () => {
+	const cartId = getCartIdFromCookies();
+
+	if (!cartId) {
+		return null;
+	}
+
+	const cart = await getCartById(cartId);
+
+	return cart ? cart : null;
+};
+
+export const getCart = async () => {
+	const existingCart = await getExistingCart();
+
+	if (existingCart) {
+		return existingCart;
+	}
+
+	return createCart();
+};
+
+export const getCartItemCount = (cart: CartFragment): number => {
+	if (!cart?.items.length) {
+		return 0;
+	}
+	return cart.items.reduce((acc: number, item) => acc + item.quantity, 0);
 };

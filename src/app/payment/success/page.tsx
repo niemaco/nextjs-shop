@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { getCart } from "@/utils/cart";
+import { getCart } from "@/api/cart";
 
 type PaymentSuccessPageProps = {
 	searchParams: {

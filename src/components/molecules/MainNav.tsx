@@ -2,7 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import { type Route } from "next";
 import { ActiveLink } from "@/components/atoms/ActiveLink";
 import { SearchForm } from "@/components/molecules/SearchForm";
-import { getCartItemCount, getExistingCart } from "@/utils/cart";
+import { getCartItemCount, getExistingCart } from "@/api/cart";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";

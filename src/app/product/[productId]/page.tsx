@@ -6,9 +6,8 @@ import { revalidateTag } from "next/cache";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
 import { type ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
-import { addToCart } from "@/api/cart";
+import { addToCart, getCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
-import { getCart } from "@/utils/cart";
 import { ReviewForm } from "@/components/molecules/ReviewForm";
 
 type ProductPageProps = {
