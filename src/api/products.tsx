@@ -1,4 +1,4 @@
-import { ProductFragment, ProductsGetDocument } from "@/gql/graphql";
+import { type ProductFragment, ProductsGetDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphql";
 
 type ProductsWithMeta = {

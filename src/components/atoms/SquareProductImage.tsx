@@ -1,5 +1,5 @@
-import { ProductImageFragment } from "@/gql/graphql";
 import NextImage from "next/image";
+import { type ProductImageFragment } from "@/gql/graphql";
 
 type SquareProductImageProps = {
 	width: number;

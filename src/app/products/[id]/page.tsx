@@ -1,8 +1,8 @@
+import { notFound } from "next/navigation";
 import { BaseHeading } from "@/components/atoms/BaseHeading";
 import { Pagination } from "@/components/molecules/Pagination";
 import { ProductList } from "@/components/organisms/ProductList";
 import { getProducts } from "@/api/products";
-import { notFound } from "next/navigation";
 
 // TODO: in the future, download from select with the selection of elements
 const limit = 12;

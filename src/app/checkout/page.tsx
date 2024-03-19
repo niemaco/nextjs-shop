@@ -1,7 +1,7 @@
 import Stripe from "stripe";
+import { notFound } from "next/navigation";
 import { StripeForm } from "@/components/organisms/StripeForm";
 import { getCart } from "@/utils/cart";
-import { notFound } from "next/navigation";
 
 export default async function CheckoutPage() {
 	const cart = await getCart();

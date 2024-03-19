@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs";
-import { getOrderById } from "@/api/orders";
 import { redirect } from "next/navigation";
+import { getOrderById } from "@/api/orders";
 
 const OrdersPage = async () => {
 	const user = await currentUser();

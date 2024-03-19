@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatPrice } from "@/utils/price";
-import { ProductFragment } from "@/gql/graphql";
+import { type ProductFragment } from "@/gql/graphql";
 
 type ProductDetailsProps = {
 	product: ProductFragment;

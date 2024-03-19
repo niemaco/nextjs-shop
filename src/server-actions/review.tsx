@@ -1,8 +1,8 @@
 "use server";
 
-import { createReview } from "@/api/reviews";
-import { ReviewCreateMutationVariables } from "@/gql/graphql";
 import { revalidateTag } from "next/cache";
+import { createReview } from "@/api/reviews";
+import { type ReviewCreateMutationVariables } from "@/gql/graphql";
 
 const addProductReview = async (formData: FormData) => {
 	const review = {

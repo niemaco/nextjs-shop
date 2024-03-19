@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { executeGraphql } from "@/api/graphql";
 import {
 	CartAddItemDocument,
@@ -6,9 +7,8 @@ import {
 	CartFindOrCreateDocument,
 	CartGetByIdDocument,
 	CartRemoveItemDocument,
-	MutationCartAddItemInput,
+	type MutationCartAddItemInput,
 } from "@/gql/graphql";
-import { notFound } from "next/navigation";
 import { setCartIdInCookies } from "@/utils/cart";
 
 // queries

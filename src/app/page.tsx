@@ -1,5 +1,5 @@
 import { getRelatedProducts } from "@/api/related";
-import { ProductSortBy, SortDirection } from "@/gql/graphql";
+import { type ProductSortBy, type SortDirection } from "@/gql/graphql";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts";
 
 export default async function HomePage() {

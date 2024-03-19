@@ -1,6 +1,6 @@
 import { ProductDetails } from "@/components/atoms/ProductDetails";
 import { SquareProductImage } from "@/components/atoms/SquareProductImage";
-import { ProductFragment } from "@/gql/graphql";
+import { type ProductFragment } from "@/gql/graphql";
 
 type ProductListItemProps = {
 	product: ProductFragment;

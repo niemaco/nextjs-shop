@@ -1,6 +1,6 @@
 import { getSearchedProducts } from "@/api/searched";
 import { ProductList } from "@/components/organisms/ProductList";
-import { ProductFragment } from "@/gql/graphql";
+import { type ProductFragment } from "@/gql/graphql";
 
 type SearchParamsProps = {
 	searchParams: {

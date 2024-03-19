@@ -1,8 +1,8 @@
 import { ShoppingCart } from "lucide-react";
+import { type Route } from "next";
 import { ActiveLink } from "@/components/atoms/ActiveLink";
 import { SearchForm } from "@/components/molecules/SearchForm";
 import { getCartItemCount, getExistingCart } from "@/utils/cart";
-import { Route } from "next";
 
 const className: string =
 	"text-gray-600 group-hover:text-blue-400 group-focus-visible:text-blue-400";

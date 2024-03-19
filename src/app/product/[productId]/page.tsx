@@ -1,14 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import NextImage from "next/image";
+import { revalidateTag } from "next/cache";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
-import NextImage from "next/image";
+import { type ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
 import { addToCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { getCart } from "@/utils/cart";
-import { revalidateTag } from "next/cache";
 import { ReviewForm } from "@/components/molecules/ReviewForm";
 
 type ProductPageProps = {

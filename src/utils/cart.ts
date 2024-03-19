@@ -1,15 +1,15 @@
 import { cookies } from "next/headers";
 import { createCart, getCartById } from "@/api/cart";
-import { CartFragment } from "@/gql/graphql";
+import { type CartFragment } from "@/gql/graphql";
 
 export const getCartIdFromCookies = (): string | undefined => {
-	return cookies().get("cartId" as any)?.value;
+	return cookies().get("cartId")?.value;
 };
 
 export const setCartIdInCookies = (value: string) => {
 	cookies().set(
-		"cartId" as any,
-		value as any,
+		"cartId",
+		value,
 		{
 			maxAge: 60 * 60 * 24 * 365,
 			expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
@@ -18,7 +18,7 @@ export const setCartIdInCookies = (value: string) => {
 			secure: true,
 			sameSite: "lax",
 			priority: "low",
-		} as any,
+		},
 	);
 };
 
@@ -41,7 +41,7 @@ export const getCart = async () => {
 		return existingCart;
 	}
 
-	return await createCart();
+	return createCart();
 };
 
 export const getCartItemCount = (cart: CartFragment): number => {
