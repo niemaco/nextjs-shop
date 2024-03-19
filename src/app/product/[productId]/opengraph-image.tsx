@@ -32,7 +32,7 @@ export default async function og({ params }: OgProps): Promise<ImageResponse> {
 
 	const category = product?.categories[0];
 
-	const { name, description, categories, images } = product;
+	const { name, description } = product;
 
 	return new ImageResponse(
 		(
