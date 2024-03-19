@@ -44,7 +44,7 @@ export const getCart = async () => {
 };
 
 export const getCartItemCount = (cart) => {
-	if (!cart.items.length) {
+	if (!cart?.items.length) {
 		return 0;
 	}
 	return cart.items.reduce((acc, item) => acc + item.quantity, 0);

@@ -6,7 +6,7 @@ import { RemoveButton } from "@/components/atoms/RemoveButton";
 
 export default async function CartPage() {
 	const cart = await getCart();
-	const isCartEmpty = !cart.items.length;
+	const isCartEmpty = !cart?.items.length || false;
 	return (
 		<div>
 			<h1>Cart</h1>
