@@ -1,5 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
+import { type Route } from "next";
 import { type ProductSortBy, type SortDirection } from "@/gql/graphql";
 
 export const SortingSelect = () => {
@@ -38,7 +39,7 @@ export const SortingSelect = () => {
 		}
 
 		router.replace(
-			`${pathname}${params === null ? "" : `?orderBy=${params.orderBy}&order=${params.order}`}`,
+			`${pathname}${params === null ? "" : `?orderBy=${params.orderBy}&order=${params.order}`}` as const as Route,
 		);
 	};
 

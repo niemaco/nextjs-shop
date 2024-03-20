@@ -4,7 +4,6 @@ import { BaseHeading } from "@/components/atoms/BaseHeading";
 import { getProductsByCategory } from "@/api/categories";
 import { ProductList } from "@/components/organisms/ProductList";
 import { Pagination } from "@/components/molecules/Pagination";
-import { type Category } from "@/gql/graphql";
 
 const limit = 12;
 
@@ -17,11 +16,11 @@ export const generateStaticParams = async () => {
 };
 
 export async function generateMetadata({ params }: CategoryPageParams): Promise<Metadata> {
-	const { name, description }: Category = await getProductsByCategory(params.slug);
+	const category = await getProductsByCategory(params.slug);
 
 	return {
-		title: ` Products from category: ${name || params.slug}`,
-		description: description || "",
+		title: ` Products from category: ${category?.name || params.slug}`,
+		description: category?.description || null,
 	};
 }
 
@@ -30,9 +29,15 @@ export default async function CategoriesPage({ params }: CategoryPageParams) {
 		throw notFound();
 	}
 
-	const { products = [], name }: Category = await getProductsByCategory(params.slug);
+	const category = await getProductsByCategory(params.slug);
 
-	if (!products) {
+	if (!category) {
+		return <>Such a category does not exist</>;
+	}
+
+	const { name, products } = category;
+
+	if (!products.length) {
 		return <>The {name} category does not contain any products.</>;
 	}
 	const numberOfProducts = products.length;

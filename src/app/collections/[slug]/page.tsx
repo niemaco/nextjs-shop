@@ -3,16 +3,15 @@ import type { Metadata } from "next";
 import { BaseHeading } from "@/components/atoms/BaseHeading";
 import { getProductsByCollection } from "@/api/collections";
 import { ProductList } from "@/components/organisms/ProductList";
-import type { Collection } from "@/gql/graphql";
 
 type CollectionPageParams = { params: { slug: string } };
 
 export async function generateMetadata({ params }: CollectionPageParams): Promise<Metadata> {
-	const { name, description }: Collection = await getProductsByCollection(params.slug);
+	const collection = await getProductsByCollection(params.slug);
 
 	return {
-		title: ` Products from collection: ${name || params.slug}`,
-		description: description || "",
+		title: ` Products from collection: ${collection?.name || params.slug}`,
+		description: collection?.description || null,
 	};
 }
 
@@ -21,7 +20,13 @@ export default async function CollectionsPage({ params }: CollectionPageParams) 
 		throw notFound();
 	}
 
-	const { products, name }: Collection = await getProductsByCollection(params.slug);
+	const collection = await getProductsByCollection(params.slug);
+
+	if (!collection) {
+		return <>A Collection does not exist.</>;
+	}
+
+	const { name, products } = collection;
 
 	if (!products) {
 		return <>The {name} collection does not contain any products.</>;
