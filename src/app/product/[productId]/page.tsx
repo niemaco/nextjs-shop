@@ -7,12 +7,13 @@ import { Suspense } from "react";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
 import {
+	type CartFragment,
 	type ProductFragment,
 	type ProductGetByIdQuery,
 	type ProductSortBy,
 	type SortDirection,
 } from "@/gql/graphql";
-import { addToCart, getCart } from "@/api/cart";
+import { addToCart, changeCartQuantity, getCart } from "@/api/cart";
 import { AddToCartButton } from "@/components/atoms/AddToCartButton";
 import { ReviewForm } from "@/components/molecules/ReviewForm";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts";
@@ -33,22 +34,27 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 	};
 }
 
-const addProductToCart = async (cartId: string, productId: string) => {
+const addProductToCart = async (cart: CartFragment, productId: string) => {
 	const product = await getProductById(productId);
 
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	const success = await addToCart(cartId, productId);
+	const cartItem = cart.items.find((item) => {
+		item.product.id = productId;
+		return item;
+	});
 
-	if (!success) {
-		throw new Error("Failed to add product to cart");
+	if (!cartItem) {
+		await addToCart(cart.id, productId);
+	}
+
+	if (cartItem) {
+		await changeCartQuantity(cart.id, productId, cartItem.quantity + 1);
 	}
 
 	revalidateTag("cart");
-
-	return success;
 };
 export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
@@ -66,7 +72,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 	const addProductToCartAction = async () => {
 		"use server";
 		const cart = await getCart();
-		await addProductToCart(cart.id, params.productId);
+		await addProductToCart(cart, params.productId);
 	};
 
 	return (
