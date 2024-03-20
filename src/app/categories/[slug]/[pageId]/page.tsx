@@ -11,9 +11,9 @@ type CategoryPageParams = {
 	params: { slug: string; pageId: string };
 };
 
-export const generateStaticParams = async () => {
-	return [{ id: "1" }, { id: "2" }, { id: "3" }];
-};
+// export const generateStaticParams = async () => {
+// 	return [{ id: "1" }, { id: "2" }, { id: "3" }];
+// };
 
 export async function generateMetadata({ params }: CategoryPageParams): Promise<Metadata> {
 	const category = await getProductsByCategory(params.slug);
