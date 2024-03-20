@@ -368,8 +368,10 @@ export type ProductGetByIdQueryVariables = Exact<{
 export type ProductGetByIdQuery = { product?: { id: string, name: string, price: number, slug: string, description: string, rating?: number | null, categories: Array<{ name: string, slug: string }>, reviews: Array<{ author: string, createdAt: unknown, description: string, email: string, id: string, rating: number, title: string, updatedAt: unknown }>, images: Array<{ url: string, alt: string }> } | null };
 
 export type ProductsGetQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
+  offset: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
+  order: SortDirection;
+  orderBy: ProductSortBy;
 }>;
 
 
@@ -741,8 +743,8 @@ fragment ProductImage on ProductImage {
   alt
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductsGetDocument = new TypedDocumentString(`
-    query ProductsGet($offset: Int, $take: Int) {
-  products(order: ASC, orderBy: DEFAULT, skip: $offset, take: $take) {
+    query ProductsGet($offset: Int!, $take: Int!, $order: SortDirection!, $orderBy: ProductSortBy!) {
+  products(order: $order, orderBy: $orderBy, skip: $offset, take: $take) {
     data {
       ...Product
     }

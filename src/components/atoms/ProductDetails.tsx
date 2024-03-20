@@ -29,7 +29,13 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 					</div>
 				)}
 				<div>
-					<span className="sr-only">Price</span> <span>{formatPrice(product.price)}</span>
+					<span className="sr-only">Price</span>
+					<span data-testid="product-price">{formatPrice(product.price)}</span>
+				</div>
+
+				<div>
+					<span className="sr-only">Rating</span>
+					<span data-testid="product-rating">{product.rating?.toFixed(2)}</span>
 				</div>
 			</Link>
 		</div>

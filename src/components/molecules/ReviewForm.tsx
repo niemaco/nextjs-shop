@@ -31,7 +31,6 @@ export const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 	const [optimisticRating, setOptimisticRating] = useOptimistic(
 		rating,
 		(_state, newRating: number) => {
-			console.log(newRating);
 			return newRating;
 		},
 	);
@@ -71,7 +70,7 @@ export const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 			<p className="my-3 text-sm text-gray-500">
 				<span>Rating:&nbsp;</span>
 				<span className="sr-only">Rating:</span>
-				{optimisticRating}
+				{optimisticRating.toFixed(2)}
 				<small>&nbsp;({optimisticReviews.length})</small>
 			</p>
 

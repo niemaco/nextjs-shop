@@ -1,5 +1,4 @@
 import Stripe from "stripe";
-import { getCart } from "@/api/cart";
 
 type PaymentSuccessPageProps = {
 	searchParams: {
@@ -22,9 +21,8 @@ const PaymentSuccessPage = async ({ searchParams }: PaymentSuccessPageProps) => 
 	console.log(searchParams);
 	console.log(stripe);
 
-	if (searchParams.redirect_status === "poetic-excel-prefer-thrive") {
-		const cart = await getCart();
-		cart;
+	if (searchParams.redirect_status === "success") {
+		//TODO completition
 	}
 
 	return <div>{searchParams.redirect_status}</div>;
