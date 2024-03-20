@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 
-export function AddToCartButton() {
+export const AddToCartButton = () => {
 	const status = useFormStatus();
 
 	return (
@@ -10,8 +10,9 @@ export function AddToCartButton() {
 			type="submit"
 			disabled={status.pending}
 			className="mb-4 rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:cursor-wait disabled:bg-gray-200 disabled:text-gray-200 disabled:text-gray-500"
+			data-testid="add-to-cart-button"
 		>
 			Add to cart
 		</button>
 	);
-}
+};

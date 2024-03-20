@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { getRelatedProducts } from "@/api/related";
-import { ProductSortBy, SortDirection } from "@/gql/graphql";
-import { RelatedProducts } from "@/ui/organisms/RelatedProducts";
+import { type ProductSortBy, type SortDirection } from "@/gql/graphql";
+import { RelatedProducts } from "@/components/organisms/RelatedProducts";
 
 export default async function HomePage() {
 	const sortOrderKind: SortDirection[] = ["ASC", "DESC"];
@@ -12,7 +13,10 @@ export default async function HomePage() {
 	return (
 		<div className="py-6">
 			<h1 className="py-4">HomePage</h1>
-			<RelatedProducts products={relatedProducts} />
+			<Link href={"/collections/summer-vibes"}>Summer Vibes</Link>
+			<br />
+			<Link href={"/collections/new-arrivals"}>New Arrivals</Link>
+			<RelatedProducts products={relatedProducts} data-testid="products-list" />
 		</div>
 	);
 }

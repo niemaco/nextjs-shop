@@ -1,7 +1,7 @@
-query ProductsGet($offset: Int, $take: Int) {
+query ProductsGet($offset: Int!, $take: Int!, $order: SortDirection!, $orderBy: ProductSortBy!) {
 	products(
-		order: ASC,
-		orderBy: DEFAULT,
+		order: $order,
+		orderBy: $orderBy,
 		skip: $offset,
 		take: $take
 	) {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatPrice } from "@/utils/price";
-import { ProductFragment } from "@/gql/graphql";
+import { type ProductFragment } from "@/gql/graphql";
 
 type ProductDetailsProps = {
 	product: ProductFragment;
@@ -9,15 +9,8 @@ type ProductDetailsProps = {
 export const ProductDetails = ({ product }: ProductDetailsProps) => {
 	return (
 		<div className="flex flex-col">
-			<div className="my-3 text-gray-700">
-				<h3 className="text-lg font-semibold">
-					<Link
-						href={`/product/${product.id}`}
-						className="hover:text-red-400 focus-visible:text-red-400 group-hover:text-red-600 group-focus-visible:grayscale-0"
-					>
-						{product.name}
-					</Link>
-				</h3>
+			<Link href={`/product/${product.id}`} className="my-3 text-gray-700">
+				<h3 className="text-lg font-semibold">{product.name}</h3>
 
 				{product?.categories?.length && (
 					<div className="mb-3">
@@ -30,17 +23,21 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 								},
 								index,
 							) => (
-								<Link key={index} href={`/categories/${category.slug}/1`}>
-									{category.name}
-								</Link>
+								<span key={index}>{category.name}</span>
 							),
 						)}
 					</div>
 				)}
 				<div>
-					<span className="sr-only">Price</span> <span>{formatPrice(product.price)}</span>
+					<span className="sr-only">Price</span>
+					<span data-testid="product-price">{formatPrice(product.price)}</span>
 				</div>
-			</div>
+
+				<div>
+					<span className="sr-only">Rating</span>
+					<span data-testid="product-rating">{product.rating?.toFixed(2)}</span>
+				</div>
+			</Link>
 		</div>
 	);
 };

@@ -1,15 +1,23 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import NextImage from "next/image";
+import { revalidateTag } from "next/cache";
+import { Suspense } from "react";
 import { getProductById } from "@/api/productById";
 import { formatPrice } from "@/utils/price";
-import { ProductFragment, type ProductGetByIdQuery } from "@/gql/graphql";
-import NextImage from "next/image";
-import { addToCart } from "@/api/cart";
-import { AddToCartButton } from "@/ui/atoms/AddToCartButton";
-import { getCart } from "@/utils/cart";
-import { revalidateTag } from "next/cache";
-import ReviewForm from "@/ui/molecules/Catalog/ReviewForm";
+import {
+	type CartFragment,
+	type ProductFragment,
+	type ProductGetByIdQuery,
+	type ProductSortBy,
+	type SortDirection,
+} from "@/gql/graphql";
+import { addToCart, changeCartQuantity, getCart } from "@/api/cart";
+import { AddToCartButton } from "@/components/atoms/AddToCartButton";
+import { ReviewForm } from "@/components/molecules/ReviewForm";
+import { RelatedProducts } from "@/components/organisms/RelatedProducts";
+import { getRelatedProducts } from "@/api/related";
 
 type ProductPageProps = {
 	params: {
@@ -26,25 +34,36 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 	};
 }
 
-const addProductToCart = async (cartId: string, productId: string) => {
+const addProductToCart = async (cart: CartFragment, productId: string) => {
 	const product = await getProductById(productId);
 
 	if (!product) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	const success = await addToCart(cartId, productId);
+	const cartItem = cart.items.find((item) => {
+		item.product.id = productId;
+		return item;
+	});
 
-	if (!success) {
-		throw new Error("Failed to add product to cart");
+	if (!cartItem) {
+		await addToCart(cart.id, productId);
+	}
+
+	if (cartItem) {
+		await changeCartQuantity(cart.id, productId, cartItem.quantity + 1);
 	}
 
 	revalidateTag("cart");
-
-	return success;
 };
 export default async function ProductPage({ params }: ProductPageProps) {
 	const product: ProductGetByIdQuery["product"] = await getProductById(params.productId);
+
+	const sortOrderKind: SortDirection[] = ["ASC", "DESC"];
+	const sortOrder = sortOrderKind[Math.floor(Math.random())] || "ASC";
+	const sortByKind: ProductSortBy[] = ["DEFAULT", "NAME", "PRICE", "RATING"];
+	const sortBy = sortByKind[Math.floor(Math.random() * 4)] || "DEFAULT";
+	const relatedProducts = await getRelatedProducts("0", "4", sortOrder, sortBy);
 
 	if (!product) {
 		throw notFound();
@@ -53,7 +72,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 	const addProductToCartAction = async () => {
 		"use server";
 		const cart = await getCart();
-		await addProductToCart(cart.id, params.productId);
+		await addProductToCart(cart, params.productId);
 	};
 
 	return (
@@ -111,8 +130,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					</div>
 				</div>
 
-				<ReviewForm productId={product.id} rating={product.rating} reviews={product.reviews} />
+				<ReviewForm
+					productId={product.id}
+					rating={product?.rating || 0}
+					reviews={product.reviews}
+				/>
 			</div>
+
+			<Suspense>
+				<RelatedProducts products={relatedProducts} data-testid="related-products" />
+			</Suspense>
 		</section>
 	);
 }

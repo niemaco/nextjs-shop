@@ -1,7 +1,7 @@
 "use server";
 
-import { changeCartQuantity, removeItem } from "@/api/cart";
 import { revalidateTag } from "next/cache";
+import { changeCartQuantity, removeItem } from "@/api/cart";
 
 const changeItemQuantity = async (cartId: string, productId: string, quantity: number) => {
 	const cart = await changeCartQuantity(cartId, productId, quantity);
@@ -12,7 +12,7 @@ const changeItemQuantity = async (cartId: string, productId: string, quantity: n
 };
 
 const removeCartItem = async (cartId: string, productId: string) => {
-	return await removeItem(cartId, productId);
+	return removeItem(cartId, productId);
 };
 
 export { changeItemQuantity, removeCartItem };

@@ -1,12 +1,12 @@
-import { formatPrice } from "@/utils/price";
-import { ChangeQuantity } from "@/ui/atoms/ChangeQuantity";
-import { getCart } from "@/utils/cart";
 import Link from "next/link";
-import { RemoveButton } from "@/ui/atoms/RemoveButton";
+import { formatPrice } from "@/utils/price";
+import { ChangeQuantity } from "@/components/atoms/ChangeQuantity";
+import { RemoveButton } from "@/components/atoms/RemoveButton";
+import { getCart } from "@/api/cart";
 
 export default async function CartPage() {
 	const cart = await getCart();
-	const isCartEmpty = !cart.items.length;
+	const isCartEmpty = !cart?.items.length || false;
 	return (
 		<div>
 			<h1>Cart</h1>

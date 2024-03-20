@@ -1,7 +1,7 @@
 // server_component.tsx
 import "server-only";
 
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { ActiveLink } from "@/components/atoms/ActiveLink";
 
 export default function NotesPage() {
 	return (

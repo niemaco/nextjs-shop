@@ -1,9 +1,9 @@
 import { executeGraphql } from "@/api/graphql";
 import {
-	ProductFragment,
+	type ProductFragment,
 	ProductsGetRelatedDocument,
-	ProductSortBy,
-	SortDirection,
+	type ProductSortBy,
+	type SortDirection,
 } from "@/gql/graphql";
 
 export const getRelatedProducts = async (

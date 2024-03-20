@@ -1,5 +1,5 @@
 import { executeGraphql } from "@/api/graphql";
-import { ProductFragment, ProductsGetSearchedDocument } from "@/gql/graphql";
+import { type ProductFragment, ProductsGetSearchedDocument } from "@/gql/graphql";
 
 export const getSearchedProducts = async (
 	offset: string,

@@ -1,7 +1,7 @@
 import Stripe from "stripe";
-import { StripeForm } from "@/ui/organisms/StripeForm";
-import { getCart } from "@/utils/cart";
 import { notFound } from "next/navigation";
+import { StripeForm } from "@/components/organisms/StripeForm";
+import { getCart } from "@/api/cart";
 
 export default async function CheckoutPage() {
 	const cart = await getCart();
@@ -14,7 +14,7 @@ export default async function CheckoutPage() {
 	}
 
 	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-		apiVersion: "2022-11-15",
+		apiVersion: "2023-10-16",
 		typescript: true,
 	});
 

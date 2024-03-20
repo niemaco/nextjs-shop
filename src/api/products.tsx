@@ -1,5 +1,17 @@
-import { ProductFragment, ProductsGetDocument } from "@/gql/graphql";
+import {
+	type ProductFragment,
+	ProductsGetDocument,
+	type ProductSortBy,
+	type SortDirection,
+} from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphql";
+
+type GetProductsParams = {
+	page: string;
+	limit: number;
+	order?: SortDirection;
+	orderBy?: ProductSortBy;
+};
 
 type ProductsWithMeta = {
 	products: ProductFragment[];
@@ -7,13 +19,19 @@ type ProductsWithMeta = {
 };
 
 // queries
-export const getProducts = async (page: string = "1", limit = 12): Promise<ProductsWithMeta> => {
+export const getProducts = async ({
+	page = "1",
+	limit = 12,
+	order = "ASC",
+	orderBy = "DEFAULT",
+}: GetProductsParams): Promise<ProductsWithMeta> => {
 	const offset = limit * (parseInt(page, 10) - 1);
+
 	const graphqlResponse = await executeGraphql({
 		query: ProductsGetDocument,
-		variables: { offset, limit },
+		variables: { offset, take: limit, order, orderBy },
 		next: {
-			revalidate: 60 * 60 * 24, // 1 day
+			revalidate: 0,
 		},
 	});
 

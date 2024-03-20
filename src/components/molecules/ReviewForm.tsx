@@ -13,7 +13,7 @@ type ReviewFormProps = {
 	}[];
 };
 
-const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
+export const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 	const formStatus = useFormStatus();
 
 	const [optimisticReviews, setOptimisticReviews] = useOptimistic(
@@ -31,7 +31,6 @@ const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 	const [optimisticRating, setOptimisticRating] = useOptimistic(
 		rating,
 		(_state, newRating: number) => {
-			console.log(newRating);
 			return newRating;
 		},
 	);
@@ -56,11 +55,13 @@ const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 			setOptimisticRating(newAverageRating);
 
 			if (await addProductReview(formData)) {
-				document.getElementById("add-review-form").reset();
+				(document.getElementById("add-review-form") as HTMLFormElement)?.reset();
 			}
 		} catch (error) {
-			console.error("Error while handling rating:", error);
-			throw Error("Error while handling rating:", error);
+			console.error("Error while handling rating: ", error);
+			throw Error("Error while handling rating", {
+				cause: error,
+			});
 		}
 	};
 
@@ -69,7 +70,7 @@ const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 			<p className="my-3 text-sm text-gray-500">
 				<span>Rating:&nbsp;</span>
 				<span className="sr-only">Rating:</span>
-				{optimisticRating}
+				{optimisticRating.toFixed(2)}
 				<small>&nbsp;({optimisticReviews.length})</small>
 			</p>
 
@@ -149,5 +150,3 @@ const ReviewForm = ({ productId, rating, reviews }: ReviewFormProps) => {
 		</>
 	);
 };
-
-export default ReviewForm;

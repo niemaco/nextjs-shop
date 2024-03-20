@@ -1,5 +1,5 @@
-import { ProductListItem } from "@/ui/molecules/Catalog/ProductListItem";
-import { ProductFragment } from "@/gql/graphql";
+import { ProductListItem } from "@/components/molecules/ProductListItem";
+import { type ProductFragment } from "@/gql/graphql";
 
 type ProductListProps = {
 	products: ProductFragment[];
