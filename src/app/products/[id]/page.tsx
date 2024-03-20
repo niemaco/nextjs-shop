@@ -1,30 +1,61 @@
-import { BaseHeading } from "@/ui/atoms/BaseHeading";
-import { Pagination } from "@/ui/molecules/Catalog/Pagination";
-import { ProductList } from "@/ui/organisms/Catalog/ProductList";
+import { notFound } from "next/navigation";
+import { BaseHeading } from "@/components/atoms/BaseHeading";
+import { Pagination } from "@/components/molecules/Pagination";
+import { ProductList } from "@/components/organisms/ProductList";
 import { getProducts } from "@/api/products";
+import { SortingSelect } from "@/components/molecules/SortingSelect";
+import { type ProductSortBy, type SortDirection } from "@/gql/graphql";
 
-//simple solution
-export const generateStaticParams = async () => {
-	return [{ id: "1" }, { id: "2" }, { id: "3" }];
+// TODO: in the future, download from select with the selection of elements
+const limit = 12;
+
+type ProductsPageParams = {
+	params: { id: string };
+	searchParams: {
+		order: SortDirection;
+		orderBy: ProductSortBy;
+	};
 };
 
-// TODO hard option
-// export const getStaticProps = async () => {
-// 	get count od product pages
-// 	return productsPages.map((page) => ({ id: page.id })).slice(0,3);
-//};
+export const generateStaticParams = async () => {
+	const {
+		numberOfProducts,
+	}: {
+		numberOfProducts: number;
+	} = await getProducts({ page: "1", limit });
 
-export default async function ProductsPageById({ params }: { params: { id?: string } }) {
-	const pageId = parseInt(params?.id || "1");
-	const products = await getProducts(pageId);
+	const defaultNumberOfGeneratedPages = 3;
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
+	const maximumGeneratedPages =
+		numberOfPages > defaultNumberOfGeneratedPages ? defaultNumberOfGeneratedPages : numberOfPages;
+	const pages = Array.from({ length: numberOfPages }).map((_, index): { id: string } => ({
+		id: (index + 1).toString(10),
+	}));
 
-	//TODO: get metadata from graphQL about numbers of all pages
+	return pages.slice(0, maximumGeneratedPages);
+};
+
+export default async function ProductsPageById({ params, searchParams }: ProductsPageParams) {
+	if (!parseInt(params.id)) {
+		throw notFound();
+	}
+
+	const { products, numberOfProducts } = await getProducts({
+		page: params.id,
+		limit,
+		order: searchParams.order,
+		orderBy: searchParams.orderBy,
+	});
+
+	const numberOfPages = Math.ceil(numberOfProducts / limit);
+
 	return (
 		<section className="grid grid-cols-1 gap-4 py-4">
-			<BaseHeading text="Our 20 products" />
-			<Pagination numberOfPages={3} />
+			<BaseHeading>All products</BaseHeading>
+			<Pagination numberOfPages={numberOfPages} />
+			<SortingSelect />
 			<ProductList products={products} />
-			<Pagination numberOfPages={3} />
+			<Pagination numberOfPages={numberOfPages} />
 		</section>
 	);
 }

@@ -1,35 +1,42 @@
-import { type CatalogProduct, type CatalogProductResponse } from "@/types/Catalog/Product";
+import {
+	type ProductFragment,
+	ProductsGetDocument,
+	type ProductSortBy,
+	type SortDirection,
+} from "@/gql/graphql";
+import { executeGraphql } from "@/api/graphql";
 
-export const getProducts = async (page: number = 1) => {
-	const take = 20;
-	const offset = take * (page - 1);
-	const res = await fetch(
-		`https://naszsklep-api.vercel.app/api/products?take=${take}&&offset=${offset}`,
-	);
-	const productsResponse = (await res.json()) as CatalogProductResponse[];
-
-	return productsResponse.map(
-		(product): CatalogProduct => mapCatalogProductResponseToCatalogProduct(product),
-	);
+type GetProductsParams = {
+	page: string;
+	limit: number;
+	order?: SortDirection;
+	orderBy?: ProductSortBy;
 };
 
-export const getProductById = async (
-	productId: CatalogProductResponse["id"],
-): Promise<CatalogProduct> => {
-	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${productId}`);
-	const productResponse = (await res.json()) as CatalogProductResponse;
-
-	return mapCatalogProductResponseToCatalogProduct(productResponse);
+type ProductsWithMeta = {
+	products: ProductFragment[];
+	numberOfProducts: number;
 };
 
-const mapCatalogProductResponseToCatalogProduct = (
-	product: CatalogProductResponse,
-): CatalogProduct => ({
-	...product,
-	name: product.title,
-	slug: `product-${product.id}`,
-	image: {
-		src: product.image,
-		alt: product.title,
-	},
-});
+// queries
+export const getProducts = async ({
+	page = "1",
+	limit = 12,
+	order = "ASC",
+	orderBy = "DEFAULT",
+}: GetProductsParams): Promise<ProductsWithMeta> => {
+	const offset = limit * (parseInt(page, 10) - 1);
+
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetDocument,
+		variables: { offset, take: limit, order, orderBy },
+		next: {
+			revalidate: 0,
+		},
+	});
+
+	return {
+		numberOfProducts: graphqlResponse.products.meta.total,
+		products: graphqlResponse.products.data,
+	};
+};

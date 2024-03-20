@@ -1,0 +1,23 @@
+query OrdersGet(
+	$email: String!
+	$order: SortDirection! = ASC
+	$orderBy: OrderSortBy! = DEFAULT
+	$skip: Int! = 0
+	$take: Int! = 10
+) {
+	orders(
+		email: $email
+		order: $order
+		orderBy: $orderBy
+		skip: $skip
+		take: $take
+	) {
+		data {
+			...Order
+		}
+		meta {
+			count
+			total
+		}
+	}
+}

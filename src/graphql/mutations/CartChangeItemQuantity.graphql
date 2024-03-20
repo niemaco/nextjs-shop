@@ -1,0 +1,26 @@
+mutation CartChangeItemQuantity($cartId: ID!, $productId: ID!, $quantity: Int!) {
+	cartChangeItemQuantity(
+		id: $cartId
+		productId: $productId
+		quantity: $quantity
+	) {
+		id
+		items {
+			product {
+				id
+				name
+				price
+				slug
+				categories {
+					name
+					slug
+				}
+				description
+				images {
+					...ProductImage
+				}
+			}
+			quantity
+		}
+	}
+}
