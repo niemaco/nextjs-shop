@@ -15,5 +15,6 @@ export default authMiddleware({
 		"/products/(.*)",
 		"/notes",
 		"/notes/(.*)",
+		"/contact",
 	],
 });
